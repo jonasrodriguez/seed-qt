@@ -10,5 +10,6 @@
         <file>elements/PatientDialogField.qml</file>
         <file>images/werfenIcon.png</file>
         <file>images/RefreshIcon.png</file>
+        <file>elements/AddNewPatientButton.qml</file>
     </qresource>
 </RCC>

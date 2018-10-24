@@ -43,18 +43,13 @@ Item {
             clip: true
 
             model: patientList
-            delegate: delegate
+            delegate: PatientListDelegate {}
 
             flickableDirection: Flickable.VerticalFlick
             boundsBehavior: Flickable.OvershootBounds
             ScrollBar.vertical: ScrollBar {
                 anchors.right: parent.right
             }
-        }
-
-        Component {
-            id: delegate
-            PatientListDelegate { }
         }
     }
 
@@ -69,24 +64,7 @@ Item {
         anchors.bottom: refreshButton.top
         anchors.bottomMargin: height / 5
 
-        Shape {
-            id: canvas
-            height: parent.height * 0.8
-            width: height
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            ShapePath {
-                strokeColor: "white"
-                strokeWidth: 3
-                startX: canvas.width * 0.2
-                startY: (canvas.height / 2)
-                PathLine {x:canvas.width / 2    ; y:canvas.height / 2}
-                PathLine {x:canvas.width / 2    ; y:canvas.height * 0.2}
-                PathLine {x:canvas.width / 2    ; y:canvas.height * 0.8}
-                PathLine {x:canvas.width / 2    ; y:canvas.height / 2}
-                PathLine {x:canvas.width * 0.8  ; y:canvas.height / 2}
-            }
-        }
+        AddNewPatientButton {}
 
         MouseArea {
             anchors.fill: parent
@@ -96,12 +74,6 @@ Item {
                 patientDialogLoad.active = true
                 patientDialogLoad.item.open()
              }
-         }
-
-         Loader {
-             id: patientDialogLoad
-             source: "PatientDialog.qml"
-             active: false
          }
     }
 
@@ -122,5 +94,12 @@ Item {
             anchors.fill: parent
             onClicked: patientList.refreshPatientList()
         }
+    }
+
+    //Patient Dialog Loader
+    Loader {
+        id: patientDialogLoad
+        source: "PatientDialog.qml"
+        active: false
     }
 }
