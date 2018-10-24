@@ -4,7 +4,7 @@ import QtQuick.Window 2.2
 Window {
     id: mainWindow
     visible: true
-    title: qsTr("QT Seed")
+    title: qsTr("seed-qt")
 
     width: 1280
     height: 720

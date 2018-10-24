@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Shapes 1.0
+import "elements"
 
 Item {
     id: patientsArea
@@ -53,8 +54,7 @@ Item {
 
         Component {
             id: delegate
-            PatientDelegate {
-            }
+            PatientListDelegate { }
         }
     }
 
@@ -87,15 +87,6 @@ Item {
                 PathLine {x:canvas.width * 0.8  ; y:canvas.height / 2}
             }
         }
-//        Rectangle {
-//            height: parent.height * 0.7
-//            width: height
-//            anchors.left: parent.left
-//            anchors.centerIn: parent
-//            radius: 5
-//            color: "white"
-
-//        }
 
         MouseArea {
             anchors.fill: parent
@@ -107,14 +98,9 @@ Item {
              }
          }
 
-         Component {
-             id: dlgComp
-             NewPatient {}
-         }
-
          Loader {
              id: patientDialogLoad
-             sourceComponent: dlgComp
+             source: "PatientDialog.qml"
              active: false
          }
     }
@@ -130,7 +116,7 @@ Item {
         Image {
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "res/RefreshIcon.png"
+            source: "images/RefreshIcon.png"
          }
         MouseArea {
             anchors.fill: parent

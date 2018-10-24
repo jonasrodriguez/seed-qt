@@ -11,9 +11,7 @@ Rectangle {
         width: parent.width * 0.18
         color: "#097bed"
 
-        SideBar {
-
-        }
+        SideBar {}
     }
 
     Rectangle {

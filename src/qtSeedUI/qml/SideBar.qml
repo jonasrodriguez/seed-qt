@@ -15,7 +15,7 @@ Item {
         Image {
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "res/werfenIcon.png"
+            source: "images/werfenIcon.png"
         }
     }
 

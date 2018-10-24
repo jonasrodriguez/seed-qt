@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
+import "elements"
 
 Dialog {
     title: "Add New Patient"
@@ -48,7 +49,7 @@ Dialog {
         }
 
         //Name
-        NewPatientField {
+        PatientDialogField {
             id: nameField
             fieldName: "Patient Name"
             anchors.top: newUserTitleArea.bottom
@@ -57,7 +58,7 @@ Dialog {
         }
 
         //Surname
-        NewPatientField {
+        PatientDialogField {
             id: surnameField
             fieldName: "Patient Surname"
             anchors.top: nameField.bottom
@@ -65,7 +66,7 @@ Dialog {
         }
 
         //Date of Birth
-        NewPatientField {
+        PatientDialogField {
             id: dobField
             fieldName: "Date of Birth"
             anchors.top: surnameField.bottom
@@ -141,7 +142,7 @@ Dialog {
         }
 
         //Email
-        NewPatientField {
+        PatientDialogField {
             id: emailField
             fieldName: "Patient Email"
             anchors.top: dobField.bottom
@@ -176,7 +177,7 @@ Dialog {
         }
 
         //Coordinates
-        NewPatientField {
+        PatientDialogField {
             id: coorField
             fieldName: "Coordinates"
             anchors.top: addressTitleArea.bottom
@@ -185,7 +186,7 @@ Dialog {
         }
 
         //Street
-        NewPatientField {
+        PatientDialogField {
             id: streetField
             fieldName: "Street"
             anchors.top: coorField.bottom
@@ -193,7 +194,7 @@ Dialog {
         }
 
         //City
-        NewPatientField {
+        PatientDialogField {
             id: cityField
             fieldName: "City"
             anchors.top: streetField.bottom
@@ -201,7 +202,7 @@ Dialog {
         }
 
         //Zip
-        NewPatientField {
+        PatientDialogField {
             id: zipField
             fieldName: "Zip Code"
             anchors.top: cityField.bottom

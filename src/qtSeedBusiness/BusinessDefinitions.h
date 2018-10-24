@@ -1,6 +1,7 @@
 #ifndef BUSINESSDEFINITIONS_H
 #define BUSINESSDEFINITIONS_H
 
+#include <QObject>
 #include <QString>
 
 static const QString json_id            = "id";

@@ -21,7 +21,7 @@ void BusinessLogic::StartUp() {
   db_->StartUp();
   comms_->SetCommsAddress("http://127.0.0.1", "8080");
 
-  //  LoginUser("Systelab","Systelab");
+  LoginUser("Systelab","Systelab");
 }
 
 void BusinessLogic::ShutDown() {
