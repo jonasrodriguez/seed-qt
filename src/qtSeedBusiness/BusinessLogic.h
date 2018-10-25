@@ -15,7 +15,10 @@ class BusinessLogic : public IBusiness {
   void LoginUser(QString user, QString pass) override;
   void GetPatientList() override;
   void SaveNewPatient(Patient patient) override;
+  void UpdatePatient(Patient patient) override;
   void DeletePatient(int patientId) override;
+
+  void GetPatientFromList(Patient patient) override;
 
  public slots:
   void ProcessLoginSuccess(QString user) override;

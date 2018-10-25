@@ -14,6 +14,7 @@ class IComms : public QObject {
   virtual void Login(QString user, QString password) = 0;
   virtual void GetPatientList() = 0;
   virtual void PostPatient(Patient patient) = 0;
+  virtual void PutPatient(Patient patient) = 0;
   virtual void DeletePatient(int patientId) = 0;
 
  signals:

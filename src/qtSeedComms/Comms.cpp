@@ -83,13 +83,33 @@ void Comms::PostPatient(Patient patient) {
 
 void Comms::ProcessPostPatient(QNetworkReply* reply) {
   qDebug() << "Comms::ProcessPostPatient";
-  QString errors("");
-
   if (reply->error() != QNetworkReply::NoError) {
     emit ReportCommsError(
         reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
         reply->errorString());
-    return;
+  } else
+    GetPatientList();
+}
+
+void Comms::PutPatient(Patient patient) {
+  qDebug() << "Comms::PutPatient";
+  QNetworkAccessManager* manager = new QNetworkAccessManager();
+  QByteArray patientJson = CreateJsonPatient(patient);
+  QNetworkRequest request;
+  request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + QString::number(patient.id)));
+  request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+  request.setRawHeader("Authorization", auth_);
+  manager->put(request, patientJson);
+  QObject::connect(manager, &QNetworkAccessManager::finished,
+                   [&](QNetworkReply* reply) { ProcessPutPatient(reply); });
+}
+
+void Comms::ProcessPutPatient(QNetworkReply* reply) {
+  qDebug() << "Comms::ProcessPutPatient";
+  if (reply->error() != QNetworkReply::NoError) {
+    emit ReportCommsError(
+        reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
+        reply->errorString());
   } else
     GetPatientList();
 }
@@ -107,13 +127,10 @@ void Comms::DeletePatient(int patientId) {
 
 void Comms::ProcessDeletePatient(QNetworkReply* reply) {
   qDebug() << "Comms::ProcessDeletePatient";
-  QString errors("");
-
   if (reply->error() != QNetworkReply::NoError) {
     emit ReportCommsError(
         reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
         reply->errorString());
-    return;
   } else
     GetPatientList();
 }

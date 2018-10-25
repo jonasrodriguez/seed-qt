@@ -15,11 +15,14 @@ class IBusiness : public QObject {
   virtual void LoginUser(QString user, QString password) = 0;
   virtual void GetPatientList() = 0;
   virtual void SaveNewPatient(Patient patient) = 0;
+  virtual void UpdatePatient(Patient patient) = 0;
   virtual void DeletePatient(int patientId) = 0;
+  virtual void GetPatientFromList(Patient patient) = 0;
 
  signals:
   void SendPatientList(QVector<Patient> patients);
   void SendLoginStatus(bool loginStatus);
+  void SendPatient(Patient patient);
 
  public slots:
   virtual void ProcessLoginSuccess(QString user) = 0;

@@ -16,6 +16,7 @@ class Comms : public IComms {
   void Login(QString user, QString password) override;
   void GetPatientList() override;
   void PostPatient(Patient patient) override;
+  void PutPatient(Patient patient) override;
   void DeletePatient(int patientId) override;
 
  private:
@@ -25,6 +26,7 @@ class Comms : public IComms {
   void ProcessLogin(QNetworkReply *, QString user);
   void ProcessGetPatientsList(QNetworkReply *);
   void ProcessPostPatient(QNetworkReply *);
+  void ProcessPutPatient(QNetworkReply *);
   void ProcessDeletePatient(QNetworkReply *);
 
  private:

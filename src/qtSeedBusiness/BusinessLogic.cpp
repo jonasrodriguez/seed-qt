@@ -49,6 +49,10 @@ void BusinessLogic::SaveNewPatient(Patient patient) {
   comms_->PostPatient(patient);
 }
 
+void BusinessLogic::UpdatePatient(Patient patient) {
+  comms_->PutPatient(patient);
+}
+
 void BusinessLogic::DeletePatient(int patientId) {
   comms_->DeletePatient(patientId);
 }
@@ -60,4 +64,8 @@ void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
   }
   qDebug() << "errorCode" << errorCode;
   qDebug() << "errorSummary" << errorSummary;
+}
+
+void BusinessLogic::GetPatientFromList(Patient patient) {
+  emit SendPatient(patient);
 }

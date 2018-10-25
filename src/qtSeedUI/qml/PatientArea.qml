@@ -70,6 +70,8 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                //Clear dialog for new patient
+                patientDialog.clearPatientDialog()
                 //Set inactive to reset the dialog in case it was open previously...
                 patientDialogLoad.active = false
                 patientDialogLoad.active = true
@@ -95,12 +97,5 @@ Item {
             anchors.fill: parent
             onClicked: patientList.refreshPatientList()
         }
-    }
-
-    //Patient Dialog Loader
-    Loader {
-        id: patientDialogLoad
-        source: "PatientDialog.qml"
-        active: false
     }
 }

@@ -28,4 +28,12 @@ Rectangle {
             source: dashboardLogic.navigation
         }
     }
+
+    //Patient Dialog Loader
+    //Called from PatientArea.qml & PatientListDelegate.qml
+    Loader {
+        id: patientDialogLoad
+        source: "PatientDialog.qml"
+        active: false
+    }
 }

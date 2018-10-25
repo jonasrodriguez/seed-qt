@@ -1,39 +1,33 @@
 #include "PatientDialog.h"
 #include "BusinessDefinitions.h"
+#include <QDebug>
 
 PatientDialog::PatientDialog(QObject *parent, std::shared_ptr<IBusiness> &business_logic)
-    : QObject(parent), business_logic_(business_logic) {
-    qpatient_ = std::unique_ptr<PatientHelper>(new PatientHelper);
-    qpatient_->setDummyValues();
-}
+    : QObject(parent), business_logic_(business_logic), new_patient_(true) {
 
-void PatientDialog::saveNewPatient(QString name, QString surname, QString dob,
-                                   QString email, QString coordinates,
-                                   QString street, QString city,
-                                   QString zipCode) {
-  Patient patient;
-  patient.name = name;
-  patient.surname = surname;
-  patient.email = email;
-  //    patient.dateOfBirth = dob + "T000000";
-  patient.dateOfBirth = "19841212T000000";  // Testing
-
-  PatientAddress address;
-  address.coordinates = coordinates;
-  address.street = street;
-  address.city = city;
-  address.zip = zipCode;
-  patient.address = address;
-
-//  business_logic_->SaveNewPatient(patient);
+    patient_helper_ = std::unique_ptr<PatientHelper>(new PatientHelper);
+    QObject::connect(business_logic_.get(), &IBusiness::SendPatient,
+                     this, &PatientDialog::GetPatientInfoFromList);
 }
 
 void PatientDialog::savePatientInfo(PatientHelper* patient) {
     Patient p = patient->getPatient();
-    qDebug() << "Patient name: " << p.name;
-    qDebug() << "Patient name: " << p.surname;
+    if (new_patient_)
+        business_logic_->SaveNewPatient(p);
+    else
+        business_logic_->UpdatePatient(p);
 }
 
 PatientHelper* PatientDialog::getQPatient() {
-  return qpatient_.get();
+  return patient_helper_.get();
+}
+
+void PatientDialog::GetPatientInfoFromList(Patient patient) {
+  new_patient_ = false;
+  patient_helper_->setPatient(patient);
+}
+
+void PatientDialog::clearPatientDialog() {
+  new_patient_ = true;
+  patient_helper_->initializePatient();
 }

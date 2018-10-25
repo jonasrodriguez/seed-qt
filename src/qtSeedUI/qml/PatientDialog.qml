@@ -10,12 +10,12 @@ Dialog {
     width: 400
     standardButtons: StandardButton.Cancel | StandardButton.Save
 
-    onAccepted: {
-        patientDialog.savePatientInfo(patientDialog.patient);
-    }
-
     property real fieldHeight: newUserTitleArea.height * 0.8
     property real fieldWidth:  dialogArea.width * 0.9
+
+    onAccepted: {
+        patientDialog.savePatientInfo(patientDialog.patient)
+    }
 
     Item {
         id: dialogArea
@@ -52,6 +52,7 @@ Dialog {
             id: nameField
             fieldName: "Patient Name"
             fieldValue.text: patientDialog.patient.name
+            fieldValue.onTextChanged: patientDialog.patient.name = fieldValue.text
             anchors.top: newUserTitleArea.bottom
             anchors.topMargin: height * 0.8
             KeyNavigation.tab: surnameField.fieldValue
@@ -62,6 +63,7 @@ Dialog {
             id: surnameField
             fieldName: "Patient Surname"
             fieldValue.text: patientDialog.patient.surname
+            fieldValue.onTextChanged: patientDialog.patient.surname = fieldValue.text
             anchors.top: nameField.bottom
             KeyNavigation.tab: yearValue
         }
@@ -69,10 +71,9 @@ Dialog {
         //Date of Birth
         PatientDialogField {
             id: dobField
-            fieldName: "Date of Birth"            
+            fieldName: "Date of Birth"
             anchors.top: surnameField.bottom
             valueArea.color: "transparent"
-
             Item {
                 id: dobTextArea
                 width: dobField.valueArea.width
@@ -95,6 +96,8 @@ Dialog {
                         maximumLength: 4
                         font.pixelSize: 12
                         KeyNavigation.tab: monthValue
+                        text: patientDialog.patient.dobYear
+                        onTextChanged: patientDialog.patient.dobYear = text
                     }
                 }
                 //Month
@@ -115,6 +118,8 @@ Dialog {
                         maximumLength: 2
                         font.pixelSize: 12
                         KeyNavigation.tab: dayValue
+                        text: patientDialog.patient.dobMonth
+                        onTextChanged: patientDialog.patient.dobMonth = text
                     }
                 }
                 //Day
@@ -134,6 +139,8 @@ Dialog {
                         maximumLength: 2
                         font.pixelSize: 12
                         KeyNavigation.tab: emailField.fieldValue
+                        text: patientDialog.patient.dobDay
+                        onTextChanged: patientDialog.patient.dobDay = text
                     }
                 }
             }
@@ -143,6 +150,8 @@ Dialog {
         PatientDialogField {
             id: emailField
             fieldName: "Patient Email"
+            fieldValue.text: patientDialog.patient.email
+            fieldValue.onTextChanged: patientDialog.patient.email = fieldValue.text
             anchors.top: dobField.bottom
             KeyNavigation.tab: coorField.fieldValue
         }
@@ -178,6 +187,8 @@ Dialog {
         PatientDialogField {
             id: coorField
             fieldName: "Coordinates"
+            fieldValue.text: patientDialog.patient.coor
+            fieldValue.onTextChanged: patientDialog.patient.coor = fieldValue.text
             anchors.top: addressTitleArea.bottom
             KeyNavigation.tab: streetField.fieldValue
             anchors.topMargin: height * 0.8
@@ -187,6 +198,8 @@ Dialog {
         PatientDialogField {
             id: streetField
             fieldName: "Street"
+            fieldValue.text: patientDialog.patient.street
+            fieldValue.onTextChanged: patientDialog.patient.street = fieldValue.text
             anchors.top: coorField.bottom
             KeyNavigation.tab: cityField.fieldValue
         }
@@ -195,6 +208,8 @@ Dialog {
         PatientDialogField {
             id: cityField
             fieldName: "City"
+            fieldValue.text: patientDialog.patient.city
+            fieldValue.onTextChanged: patientDialog.patient.city = fieldValue.text
             anchors.top: streetField.bottom
             KeyNavigation.tab: zipField.fieldValue
         }
@@ -203,6 +218,8 @@ Dialog {
         PatientDialogField {
             id: zipField
             fieldName: "Zip Code"
+            fieldValue.text: patientDialog.patient.zip
+            fieldValue.onTextChanged: patientDialog.patient.zip = fieldValue.text
             anchors.top: cityField.bottom
         }
     }
