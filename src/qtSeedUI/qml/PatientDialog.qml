@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
+
 import "elements"
 
 Dialog {
@@ -10,9 +11,7 @@ Dialog {
     standardButtons: StandardButton.Cancel | StandardButton.Save
 
     onAccepted: {
-        newPatientDlg.saveNewPatient(nameField.fieldValue.text, surnameField.fieldValue.text, yearValue.text + monthValue.text + dayValue.text,
-                                     emailField.fieldValue.text, coorField.fieldValue.text, streetField.fieldValue.text, cityField.fieldValue.text, zipField.fieldValue.text);
-        close();
+        patientDialog.savePatientInfo(patientDialog.patient);
     }
 
     property real fieldHeight: newUserTitleArea.height * 0.8
@@ -52,6 +51,7 @@ Dialog {
         PatientDialogField {
             id: nameField
             fieldName: "Patient Name"
+            fieldValue.text: patientDialog.patient.name
             anchors.top: newUserTitleArea.bottom
             anchors.topMargin: height * 0.8
             KeyNavigation.tab: surnameField.fieldValue
@@ -61,6 +61,7 @@ Dialog {
         PatientDialogField {
             id: surnameField
             fieldName: "Patient Surname"
+            fieldValue.text: patientDialog.patient.surname
             anchors.top: nameField.bottom
             KeyNavigation.tab: yearValue
         }
@@ -68,7 +69,7 @@ Dialog {
         //Date of Birth
         PatientDialogField {
             id: dobField
-            fieldName: "Date of Birth"
+            fieldName: "Date of Birth"            
             anchors.top: surnameField.bottom
             valueArea.color: "transparent"
 
@@ -94,7 +95,6 @@ Dialog {
                         maximumLength: 4
                         font.pixelSize: 12
                         KeyNavigation.tab: monthValue
-                        text: qsTr("")
                     }
                 }
                 //Month
@@ -115,7 +115,6 @@ Dialog {
                         maximumLength: 2
                         font.pixelSize: 12
                         KeyNavigation.tab: dayValue
-                        text: qsTr("")
                     }
                 }
                 //Day
@@ -135,7 +134,6 @@ Dialog {
                         maximumLength: 2
                         font.pixelSize: 12
                         KeyNavigation.tab: emailField.fieldValue
-                        text: qsTr("")
                     }
                 }
             }
