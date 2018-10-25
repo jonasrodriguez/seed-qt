@@ -13,6 +13,7 @@ class BusinessLogic : public IBusiness {
   void ShutDown() override;
 
   void LoginUser(QString user, QString pass) override;
+  void LogOut() override;
   void GetPatientList() override;
   void SaveNewPatient(Patient patient) override;
   void UpdatePatient(Patient patient) override;

@@ -21,7 +21,7 @@ void BusinessLogic::StartUp() {
   db_->StartUp();
   comms_->SetCommsAddress("http://127.0.0.1", "8080");
 
-  LoginUser("Systelab","Systelab");
+  LoginUser("Systelab","Systelab"); //Logs on startup
 }
 
 void BusinessLogic::ShutDown() {
@@ -34,9 +34,15 @@ void BusinessLogic::LoginUser(QString user, QString pass) {
   comms_->Login(user, pass);
 }
 
+
 void BusinessLogic::ProcessLoginSuccess(QString user) {
   logged_user_ = user;
   emit SendLoginStatus(true);
+}
+
+void BusinessLogic::LogOut() {
+  logged_user_ = "";
+//  emit SendLoginStatus(false);
 }
 
 void BusinessLogic::GetPatientList() { comms_->GetPatientList(); }

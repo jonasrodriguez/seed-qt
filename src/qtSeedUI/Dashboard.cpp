@@ -41,3 +41,7 @@ void Dashboard::updateNavigation(int nav) {
 
   emit navigationChanged();
 }
+
+void Dashboard::buttonLogout() {
+    updateNavigation(navMap::login);
+}

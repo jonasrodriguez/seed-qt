@@ -13,6 +13,7 @@ class IBusiness : public QObject {
   virtual void StartUp() = 0;
   virtual void ShutDown() = 0;
   virtual void LoginUser(QString user, QString password) = 0;
+  virtual void LogOut() = 0;
   virtual void GetPatientList() = 0;
   virtual void SaveNewPatient(Patient patient) = 0;
   virtual void UpdatePatient(Patient patient) = 0;

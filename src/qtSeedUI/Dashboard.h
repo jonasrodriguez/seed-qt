@@ -30,6 +30,7 @@ class Dashboard : public QObject {
  public slots:
   void ProcessLoginStatus(bool loginStatus);
   void buttonLogin(QString user, QString pass);
+  void buttonLogout();
 
  private:
   void updateNavigation(int nav);
