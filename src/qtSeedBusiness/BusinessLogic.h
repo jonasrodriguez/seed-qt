@@ -18,8 +18,10 @@ class BusinessLogic : public IBusiness {
   void SaveNewPatient(Patient patient) override;
   void UpdatePatient(Patient patient) override;
   void DeletePatient(int patientId) override;
-
   void GetPatientFromList(Patient patient) override;
+  void UpdateConfiguration(CommsConfiguration conf) override;
+  void GetConfiguration(CommsConfiguration &conf) override;
+  bool IsUserLogger() override;
 
  public slots:
   void ProcessLoginSuccess(QString user) override;
@@ -29,5 +31,5 @@ class BusinessLogic : public IBusiness {
  private:
   std::unique_ptr<IComms> comms_;
   std::unique_ptr<IDb> db_;
-  QString logged_user_;
+  bool is_user_logger_;
 };

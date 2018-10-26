@@ -11,5 +11,6 @@
         <file>images/werfenIcon.png</file>
         <file>images/RefreshIcon.png</file>
         <file>elements/AddNewPatientButton.qml</file>
+        <file>Configuration.qml</file>
     </qresource>
 </RCC>

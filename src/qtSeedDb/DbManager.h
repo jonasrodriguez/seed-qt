@@ -10,8 +10,8 @@ class DbManager : public IDb {
   void StartUp() override;
   bool AddUser(QString user, QString pass) override;
   bool CheckUser(QString user, QString pass) override;
-  bool GetCommConfiguration(QString &ip, int &port) override;
-  bool SetCommConfiguration(QString ip, int port) override;
+  bool GetCommConfiguration(CommsConfiguration &conf) override;
+  bool UpdateCommConfiguration(CommsConfiguration conf) override;
 
  private:
   void CreateUsersTable();

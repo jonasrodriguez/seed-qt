@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QDate>
-#include <QDebug>
 #include "BusinessDefinitions.h"
 
 class PatientHelper : public QObject {

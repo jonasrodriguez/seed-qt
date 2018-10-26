@@ -41,18 +41,25 @@ Item {
                     color: "white"
                     font.family: "PT mono"
                     font.pixelSize: 16
+                    font.bold: (homeMouse.containsMouse) ? true : false
+                }
+                MouseArea {
+                    id: homeMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: dashboardLogic.buttonNavLogout()
                 }
             }
-            Item {
-                Layout.fillWidth: true
-                Layout.preferredHeight: upperSideBarContent.height / 4
-                Text {
-                    text: "Patient List"
-                    color: "white"
-                    font.family: "PT mono"
-                    font.pixelSize: 16
-                }
-            }
+//            Item {
+//                Layout.fillWidth: true
+//                Layout.preferredHeight: upperSideBarContent.height / 4
+//                Text {
+//                    text: "Patient List"
+//                    color: "white"
+//                    font.family: "PT mono"
+//                    font.pixelSize: 16
+//                }
+//            }
         }
     }
     Rectangle {
@@ -83,6 +90,7 @@ Item {
                         id: logoutConf
                         anchors.fill: parent
                         hoverEnabled: true
+                        onClicked: dashboardLogic.buttonNavConfiguration()
                     }
                 }
             }
@@ -100,7 +108,7 @@ Item {
                     id: logoutMouse
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: dashboardLogic.buttonLogout()
+                    onClicked: dashboardLogic.buttonNavLogout()
                 }
             }
         }

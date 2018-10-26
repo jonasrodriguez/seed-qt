@@ -3,7 +3,7 @@
 #include "Comms.h"
 #include "DbManager.h"
 
-BusinessLogic::BusinessLogic() : logged_user_("") {
+BusinessLogic::BusinessLogic() : is_user_logger_(false) {
   comms_ = std::unique_ptr<IComms>(new Comms);
   db_ = std::unique_ptr<IDb>(new DbManager);
 
@@ -19,9 +19,10 @@ BusinessLogic::BusinessLogic() : logged_user_("") {
 
 void BusinessLogic::StartUp() {
   db_->StartUp();
-  comms_->SetCommsAddress("http://127.0.0.1", "8080");
 
-  LoginUser("Systelab","Systelab"); //Logs on startup
+  CommsConfiguration conf;
+  db_->GetCommConfiguration(conf);
+  comms_->SetCommsAddress(conf);
 }
 
 void BusinessLogic::ShutDown() {
@@ -32,20 +33,25 @@ void BusinessLogic::ShutDown() {
 
 void BusinessLogic::LoginUser(QString user, QString pass) {
   comms_->Login(user, pass);
+  //For testing without server
+//  is_user_logger_ = true;
+//  emit SendLoginStatus(true);
 }
 
 
 void BusinessLogic::ProcessLoginSuccess(QString user) {
-  logged_user_ = user;
+  QString user_logged(user);
+  is_user_logger_ = true;
   emit SendLoginStatus(true);
 }
 
 void BusinessLogic::LogOut() {
-  logged_user_ = "";
-//  emit SendLoginStatus(false);
+  is_user_logger_ = false;
 }
 
-void BusinessLogic::GetPatientList() { comms_->GetPatientList(); }
+void BusinessLogic::GetPatientList() {
+  comms_->GetPatientList();
+}
 
 void BusinessLogic::ProcessPatients(QVector<Patient> patients) {
   emit SendPatientList(patients);
@@ -65,7 +71,7 @@ void BusinessLogic::DeletePatient(int patientId) {
 
 void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
   if (errorCode == 401) {
-    logged_user_ = "";
+    is_user_logger_ = false;
     emit SendLoginStatus(false);
   }
   qDebug() << "errorCode" << errorCode;
@@ -74,4 +80,17 @@ void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
 
 void BusinessLogic::GetPatientFromList(Patient patient) {
   emit SendPatient(patient);
+}
+
+void BusinessLogic::UpdateConfiguration(CommsConfiguration conf) {
+  if(db_->UpdateCommConfiguration(conf))
+      comms_->SetCommsAddress(conf);
+}
+
+void BusinessLogic::GetConfiguration(CommsConfiguration &conf) {
+  db_->GetCommConfiguration(conf);
+}
+
+bool BusinessLogic::IsUserLogger() {
+  return is_user_logger_;
 }

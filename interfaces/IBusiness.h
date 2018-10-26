@@ -19,6 +19,9 @@ class IBusiness : public QObject {
   virtual void UpdatePatient(Patient patient) = 0;
   virtual void DeletePatient(int patientId) = 0;
   virtual void GetPatientFromList(Patient patient) = 0;
+  virtual void UpdateConfiguration(CommsConfiguration conf) = 0;
+  virtual void GetConfiguration(CommsConfiguration &conf) = 0;
+  virtual bool IsUserLogger() = 0;
 
  signals:
   void SendPatientList(QVector<Patient> patients);

@@ -1,5 +1,4 @@
 #include "PatientList.h"
-#include <QDebug>
 
 QHash<int, QByteArray> PatientList::roleNames() const {
   QHash<int, QByteArray> roles;

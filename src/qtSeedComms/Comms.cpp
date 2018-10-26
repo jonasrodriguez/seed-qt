@@ -4,8 +4,9 @@
 
 Comms::Comms() : ip_(""), auth_("") {}
 
-void Comms::SetCommsAddress(QString ip, QString port) {
-  ip_ = ip + ":" + port;
+void Comms::SetCommsAddress(CommsConfiguration conf) {
+  ip_ = "http://" + conf.ip + ":" + QString::number(conf.port);
+  qDebug() << "Comms::SetCommsAddress: " << ip_;
 };
 
 void Comms::Login(QString user, QString password) {

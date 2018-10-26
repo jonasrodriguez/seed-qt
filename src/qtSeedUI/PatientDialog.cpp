@@ -1,6 +1,5 @@
 #include "PatientDialog.h"
 #include "BusinessDefinitions.h"
-#include <QDebug>
 
 PatientDialog::PatientDialog(QObject *parent, std::shared_ptr<IBusiness> &business_logic)
     : QObject(parent), business_logic_(business_logic), new_patient_(true) {

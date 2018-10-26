@@ -10,7 +10,7 @@ class IComms : public QObject {
   IComms() = default;
   virtual ~IComms() = default;
 
-  virtual void SetCommsAddress(QString ip, QString port) = 0;
+  virtual void SetCommsAddress(CommsConfiguration conf) = 0;
   virtual void Login(QString user, QString password) = 0;
   virtual void GetPatientList() = 0;
   virtual void PostPatient(Patient patient) = 0;
