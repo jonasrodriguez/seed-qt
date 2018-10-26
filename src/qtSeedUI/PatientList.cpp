@@ -1,5 +1,4 @@
 #include "PatientList.h"
-#include <QDebug>
 
 QHash<int, QByteArray> PatientList::roleNames() const {
   QHash<int, QByteArray> roles;
@@ -78,3 +77,12 @@ void PatientList::deletePatient(int patientId) {
 }
 
 void PatientList::refreshPatientList() { business_logic_->GetPatientList(); }
+
+void PatientList::sendPatientFromList(int patientId) {
+  for (auto i : patient_list_) {
+    if (i.id == patientId) {
+      business_logic_->GetPatientFromList(i);
+      return;
+    }
+  }
+}

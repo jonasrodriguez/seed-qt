@@ -14,6 +14,11 @@ static const QString json_street        = "street";
 static const QString json_city          = "city";
 static const QString json_zip           = "zip";
 
+struct CommsConfiguration {
+  QString ip;
+  int port;
+};
+
 struct PatientAddress {
   QString coordinates;
   QString street;

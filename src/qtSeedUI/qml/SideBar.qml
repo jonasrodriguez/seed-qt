@@ -15,7 +15,7 @@ Item {
         Image {
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "res/werfenIcon.png"
+            source: "images/werfenIcon.png"
         }
     }
 
@@ -41,18 +41,25 @@ Item {
                     color: "white"
                     font.family: "PT mono"
                     font.pixelSize: 16
+                    font.bold: (homeMouse.containsMouse) ? true : false
+                }
+                MouseArea {
+                    id: homeMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: dashboardLogic.buttonNavLogout()
                 }
             }
-            Item {
-                Layout.fillWidth: true
-                Layout.preferredHeight: upperSideBarContent.height / 4
-                Text {
-                    text: "Patient List"
-                    color: "white"
-                    font.family: "PT mono"
-                    font.pixelSize: 16
-                }
-            }
+//            Item {
+//                Layout.fillWidth: true
+//                Layout.preferredHeight: upperSideBarContent.height / 4
+//                Text {
+//                    text: "Patient List"
+//                    color: "white"
+//                    font.family: "PT mono"
+//                    font.pixelSize: 16
+//                }
+//            }
         }
     }
     Rectangle {
@@ -60,6 +67,7 @@ Item {
         width: sideBarImage.width * 0.9
         height: sideBarImage.height * 0.6
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: height / 3
         anchors.left: sideBarImage.left
         anchors.leftMargin: sideBarImage.height * 0.15
 
@@ -77,6 +85,13 @@ Item {
                     color: "white"
                     font.family: "PT mono"
                     font.pixelSize: 16
+                    font.bold: (logoutConf.containsMouse) ? true : false
+                    MouseArea {
+                        id: logoutConf
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: dashboardLogic.buttonNavConfiguration()
+                    }
                 }
             }
             Item {
@@ -87,6 +102,13 @@ Item {
                     color: "white"
                     font.family: "PT mono"
                     font.pixelSize: 16
+                    font.bold: (logoutMouse.containsMouse) ? true : false
+                }
+                MouseArea {
+                    id: logoutMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: dashboardLogic.buttonNavLogout()
                 }
             }
         }

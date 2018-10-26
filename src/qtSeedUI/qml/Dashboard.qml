@@ -11,9 +11,7 @@ Rectangle {
         width: parent.width * 0.18
         color: "#097bed"
 
-        SideBar {
-
-        }
+        SideBar {}
     }
 
     Rectangle {
@@ -29,5 +27,13 @@ Rectangle {
             anchors.fill: parent
             source: dashboardLogic.navigation
         }
+    }
+
+    //Patient Dialog Loader
+    //Called from PatientArea.qml & PatientListDelegate.qml
+    Loader {
+        id: patientDialogLoad
+        source: "PatientDialog.qml"
+        active: false
     }
 }

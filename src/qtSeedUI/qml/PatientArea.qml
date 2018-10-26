@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Shapes 1.0
 
+import "elements"
+
 Item {
     id: patientsArea
     height: parent.height
@@ -42,18 +44,12 @@ Item {
             clip: true
 
             model: patientList
-            delegate: delegate
+            delegate: PatientListDelegate {}
 
             flickableDirection: Flickable.VerticalFlick
             boundsBehavior: Flickable.OvershootBounds
             ScrollBar.vertical: ScrollBar {
                 anchors.right: parent.right
-            }
-        }
-
-        Component {
-            id: delegate
-            PatientDelegate {
             }
         }
     }
@@ -69,53 +65,18 @@ Item {
         anchors.bottom: refreshButton.top
         anchors.bottomMargin: height / 5
 
-        Shape {
-            id: canvas
-            height: parent.height * 0.8
-            width: height
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            ShapePath {
-                strokeColor: "white"
-                strokeWidth: 3
-                startX: canvas.width * 0.2
-                startY: (canvas.height / 2)
-                PathLine {x:canvas.width / 2    ; y:canvas.height / 2}
-                PathLine {x:canvas.width / 2    ; y:canvas.height * 0.2}
-                PathLine {x:canvas.width / 2    ; y:canvas.height * 0.8}
-                PathLine {x:canvas.width / 2    ; y:canvas.height / 2}
-                PathLine {x:canvas.width * 0.8  ; y:canvas.height / 2}
-            }
-        }
-//        Rectangle {
-//            height: parent.height * 0.7
-//            width: height
-//            anchors.left: parent.left
-//            anchors.centerIn: parent
-//            radius: 5
-//            color: "white"
-
-//        }
+        AddNewPatientButton {}
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                //Clear dialog for new patient
+                patientDialog.clearPatientDialog()
                 //Set inactive to reset the dialog in case it was open previously...
                 patientDialogLoad.active = false
                 patientDialogLoad.active = true
                 patientDialogLoad.item.open()
              }
-         }
-
-         Component {
-             id: dlgComp
-             NewPatient {}
-         }
-
-         Loader {
-             id: patientDialogLoad
-             sourceComponent: dlgComp
-             active: false
          }
     }
 
@@ -130,7 +91,7 @@ Item {
         Image {
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "res/RefreshIcon.png"
+            source: "images/RefreshIcon.png"
          }
         MouseArea {
             anchors.fill: parent

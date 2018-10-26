@@ -11,6 +11,13 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onPressAndHold: patientList.deletePatient(idArea.fieldValue);
+        onDoubleClicked: {
+            patientList.sendPatientFromList(model.id)
+            //Set inactive to reset the dialog in case it was open previously...
+            patientDialogLoad.active = false
+            patientDialogLoad.active = true
+            patientDialogLoad.item.open()
+        }
     }
 
     Loader {

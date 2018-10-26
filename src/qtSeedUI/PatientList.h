@@ -23,6 +23,7 @@ class PatientList : public QAbstractListModel {
   void InsertPatients(QVector<Patient> patients);
   void deletePatient(int patientId);
   void refreshPatientList();
+  void sendPatientFromList(int patientId);
 
  private:
   int patient_count_;

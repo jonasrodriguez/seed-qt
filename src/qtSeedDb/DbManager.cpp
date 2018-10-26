@@ -33,33 +33,34 @@ void DbManager::CreateConfTable() {
   if (!query.exec())
     qDebug() << "DB Error!! Create Users table: " << query.lastError();
 
-  SetCommConfiguration("127.0.0.1", 8080);
+  query.exec("INSERT INTO commsConf (ip, port) VALUES (\"127.0.0.1\", 8080)");
 }
-bool DbManager::GetCommConfiguration(QString &ip, int &port) {
+bool DbManager::GetCommConfiguration(CommsConfiguration &conf) {
     bool success = false;
     QSqlQuery query;
     query.prepare("SELECT * FROM commsConf");
     if (query.exec()) {
-      if (query.next()) {
-          success = true;
+      while (query.next()) {
+          conf.ip = query.value(1).toString();
+          conf.port = query.value(2).toInt();
       }
     } else {
       qDebug() << "DB Error!! GetCommConfiguration: " << query.lastError();
     }
     return success;
 }
-bool DbManager::SetCommConfiguration(QString ip, int port) {
+bool DbManager::UpdateCommConfiguration(CommsConfiguration conf) {
     bool success = false;
 
     QSqlQuery query;
-    query.prepare("INSERT INTO commsConf (ip, port) VALUES (:ip, :port)");
-    query.bindValue(":ip", ip);
-    query.bindValue(":port", port);
+    query.prepare("UPDATE commsConf SET ip = :ip, port = :port WHERE id = 1");
+    query.bindValue(":ip", conf.ip);
+    query.bindValue(":port", conf.port);
 
     if (query.exec())
       success = true;
     else
-      qDebug() << "DB Error!! Add user: " << query.lastError();
+      qDebug() << "DB Error!! Update Comms Conf: " << query.lastError();
 
     return success;
 }

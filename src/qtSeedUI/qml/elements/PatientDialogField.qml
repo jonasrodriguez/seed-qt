@@ -45,7 +45,6 @@ Item {
             verticalAlignment: Text.AlignVCenter
             maximumLength: 31
             font.pixelSize: 12
-            text: qsTr("")
         }
     }
 }
