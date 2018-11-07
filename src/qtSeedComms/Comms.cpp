@@ -97,7 +97,7 @@ void Comms::PutPatient(Patient patient) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QByteArray patientJson = CreateJsonPatient(patient);
   QNetworkRequest request;
-  request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + QString::number(patient.id)));
+  request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + patient.id));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   request.setRawHeader("Authorization", auth_);
   manager->put(request, patientJson);
@@ -138,7 +138,7 @@ void Comms::ProcessDeletePatient(QNetworkReply* reply) {
 
 Patient Comms::ReadJsonPatient(QJsonObject obj) {
   Patient patient;
-  patient.id = obj[json_id].toInt();
+  patient.id = obj[json_id].toString();
   patient.name = obj[json_name].toString();
   patient.surname = obj[json_surname].toString();
   patient.email = obj[json_email].toString();

@@ -34,26 +34,19 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
   switch (role) {
     case PatientRoles::idRole:
       return patient_list_.at(index.row()).id;
-      break;
     case PatientRoles::nameRole:
       return patient_list_.at(index.row()).name;
-      break;
     case PatientRoles::surnameRole:
       return patient_list_.at(index.row()).surname;
-      break;
     case PatientRoles::emailRole:
       return patient_list_.at(index.row()).email;
-      break;
     case PatientRoles::dobRole: {
       QString dob(patient_list_.at(index.row()).dateOfBirth);
       return dob.left(4) + "/" + dob.mid(4, 2) + "/" + dob.mid(6, 2);
-    } break;
+    }
     default:
       return QVariant();
-      break;
   }
-
-  return QVariant();
 }
 
 void PatientList::InsertPatients(QVector<Patient> patients) {
