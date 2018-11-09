@@ -10,7 +10,7 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        onPressAndHold: patientList.deletePatient(idArea.fieldValue);
+        onPressAndHold: patientList.deletePatient(model.id);
         onDoubleClicked: {
             patientList.sendPatientFromList(model.id)
             //Set inactive to reset the dialog in case it was open previously...
@@ -23,7 +23,7 @@ Rectangle {
     Loader {
         id: idArea
         property string fieldName: "ID"
-        property string fieldValue: model.id
+        property string fieldValue: model.pos
         width: parent.width * 0.07
         anchors.left: parent.left
         anchors.top: parent.top

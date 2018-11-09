@@ -37,6 +37,7 @@ Item {
         anchors.top: patientTitleArea.bottom
         anchors.left: patientTitleArea.left
 
+
         ListView {
             anchors.fill: parent
             anchors.topMargin: 4
@@ -46,10 +47,19 @@ Item {
             model: patientList
             delegate: PatientListDelegate {}
 
-            flickableDirection: Flickable.VerticalFlick
-            boundsBehavior: Flickable.OvershootBounds
+            interactive: !patientList.loadingPatients
+            boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {
                 anchors.right: parent.right
+            }
+
+            //Loading animation
+            Loader {
+                height: parent.height / 4
+                width: parent.width / 4
+                anchors.centerIn: parent
+                active: patientList.loadingPatients
+                source: "elements/LoadingPatientsAnimation.qml"
             }
         }
     }

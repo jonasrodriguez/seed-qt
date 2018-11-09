@@ -1,17 +1,18 @@
 #include "Comms.h"
-#include <QJsonDocument>
+#include "MessageHelper.h"
 #include <QObject>
+#include <QDebug>
 
-Comms::Comms() : ip_(""), auth_("") {}
 
-void Comms::SetCommsAddress(CommsConfiguration conf) {
+Comms::Comms() : ip_(""), auth_(""), page_number_(0), page_size_(20) {}
+
+void Comms::SetCommsAddress(const CommsConfiguration &conf) {
   ip_ = "http://" + conf.ip + ":" + QString::number(conf.port);
-  qDebug() << "Comms::SetCommsAddress: " << ip_;
 };
 
 void Comms::Login(QString user, QString password) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
-  QNetworkRequest request;
+  QNetworkRequest request;  
   request.setUrl(QUrl(ip_ + SeedLoginEndpoint));
   request.setHeader(QNetworkRequest::ContentTypeHeader,
                     "application/x-www-form-urlencoded");
@@ -31,16 +32,19 @@ void Comms::ProcessLogin(QNetworkReply* reply, QString user) {
     return;
   }
   auth_ = reply->rawHeader("Authorization");
-  GetPatientList();
+  GetPatientList(0);
 
   emit LoginSuccess(user);
 }
 
-void Comms::GetPatientList() {
+void Comms::GetPatientList(int page) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
-
+  QString pagination("");
+  if (page > 0) {
+       pagination = "?page=" + QString::number(page) + "&size=" + QString::number(page_size_);
+  }
   QNetworkRequest request;
-  request.setUrl(QUrl(ip_ + SeedEndpoint));
+  request.setUrl(QUrl(ip_ + SeedEndpoint + pagination));
   request.setRawHeader("Authorization", auth_);
   manager->get(request);
   QObject::connect(
@@ -49,7 +53,6 @@ void Comms::GetPatientList() {
 };
 
 void Comms::ProcessGetPatientsList(QNetworkReply* reply) {
-  QVector<Patient> patients;
   QString errors("");
 
   if (reply->error() != QNetworkReply::NoError) {
@@ -59,20 +62,22 @@ void Comms::ProcessGetPatientsList(QNetworkReply* reply) {
     return;
   }
 
+  QVector<Patient> patients;
+  int page_number = 0;
+  int total_patients;
   QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
-  QJsonArray jsonArray = jsonDoc.array();
-
-  foreach (const QJsonValue& value, jsonArray) {
-    patients.push_back(ReadJsonPatient(value.toObject()));
+  total_patients = MessageHelper::NumberOfPatients(jsonDoc);
+  if (total_patients > 0) {
+    MessageHelper::ReadPatientContent(jsonDoc, patients, page_number);
   }
 
-  emit SendPatients(patients);
+  emit SendPatients(patients, total_patients, page_number);
 }
 
-void Comms::PostPatient(Patient patient) {
+void Comms::PostPatient(const Patient &patient) {
   qDebug() << "Comms::PostPatient";
   QNetworkAccessManager* manager = new QNetworkAccessManager();
-  QByteArray patientJson = CreateJsonPatient(patient);
+  QByteArray patientJson = MessageHelper::CreateJsonPatient(patient);
   QNetworkRequest request;
   request.setUrl(QUrl(ip_ + SeedEndpoint));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -89,13 +94,13 @@ void Comms::ProcessPostPatient(QNetworkReply* reply) {
         reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
         reply->errorString());
   } else
-    GetPatientList();
+    GetPatientList(0);
 }
 
-void Comms::PutPatient(Patient patient) {
+void Comms::PutPatient(const Patient &patient) {
   qDebug() << "Comms::PutPatient";
   QNetworkAccessManager* manager = new QNetworkAccessManager();
-  QByteArray patientJson = CreateJsonPatient(patient);
+  QByteArray patientJson = MessageHelper::CreateJsonPatient(patient);
   QNetworkRequest request;
   request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + patient.id));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -112,14 +117,14 @@ void Comms::ProcessPutPatient(QNetworkReply* reply) {
         reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
         reply->errorString());
   } else
-    GetPatientList();
+    GetPatientList(0);
 }
 
-void Comms::DeletePatient(int patientId) {
+void Comms::DeletePatient(const QString &uid) {
   qDebug() << "Comms::DeletePatient";
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QNetworkRequest request;
-  request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + QString::number(patientId)));
+  request.setUrl(QUrl(ip_ + SeedEndpoint + "/" + uid));
   request.setRawHeader("Authorization", auth_);
   manager->deleteResource(request);
   QObject::connect(manager, &QNetworkAccessManager::finished,
@@ -133,44 +138,5 @@ void Comms::ProcessDeletePatient(QNetworkReply* reply) {
         reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
         reply->errorString());
   } else
-    GetPatientList();
-}
-
-Patient Comms::ReadJsonPatient(QJsonObject obj) {
-  Patient patient;
-  patient.id = obj[json_id].toString();
-  patient.name = obj[json_name].toString();
-  patient.surname = obj[json_surname].toString();
-  patient.email = obj[json_email].toString();
-  patient.dateOfBirth = obj[json_dob].toString();
-
-  PatientAddress address;
-  QJsonObject add = obj[json_address].toObject();
-
-  address.coordinates = add[json_coordinates].toString();
-  address.street = add[json_street].toString();
-  address.city = add[json_city].toString();
-  address.zip = add[json_zip].toString();
-  patient.address = address;
-
-  return patient;
-}
-
-QByteArray Comms::CreateJsonPatient(Patient patient) {
-  QJsonObject patientObject;
-  patientObject.insert(json_name, patient.name);
-  patientObject.insert(json_surname, patient.surname);
-  patientObject.insert(json_email, patient.email);
-  patientObject.insert(json_dob, patient.dateOfBirth);
-
-  QJsonObject addressObject;
-  addressObject.insert(json_coordinates, patient.address.coordinates);
-  addressObject.insert(json_street, patient.address.street);
-  addressObject.insert(json_city, patient.address.city);
-  addressObject.insert(json_zip, patient.address.zip);
-  patientObject.insert(json_address, addressObject);
-
-  QJsonDocument patientDocument(patientObject);
-
-  return patientDocument.toJson();
+    GetPatientList(0);
 }

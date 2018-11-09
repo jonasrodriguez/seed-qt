@@ -23,6 +23,9 @@ void BusinessLogic::StartUp() {
   CommsConfiguration conf;
   db_->GetCommConfiguration(conf);
   comms_->SetCommsAddress(conf);
+
+  //Auto Login
+  comms_->Login("Systelab", "Systelab");
 }
 
 void BusinessLogic::ShutDown() {
@@ -33,11 +36,7 @@ void BusinessLogic::ShutDown() {
 
 void BusinessLogic::LoginUser(QString user, QString pass) {
   comms_->Login(user, pass);
-  //For testing without server
-//  is_user_logger_ = true;
-//  emit SendLoginStatus(true);
 }
-
 
 void BusinessLogic::ProcessLoginSuccess(QString user) {
   QString user_logged(user);
@@ -49,24 +48,24 @@ void BusinessLogic::LogOut() {
   is_user_logger_ = false;
 }
 
-void BusinessLogic::GetPatientList() {
-  comms_->GetPatientList();
+void BusinessLogic::GetPatientList(int page) {
+  comms_->GetPatientList(page);
 }
 
-void BusinessLogic::ProcessPatients(QVector<Patient> patients) {
-  emit SendPatientList(patients);
+void BusinessLogic::ProcessPatients(QVector<Patient> patients, int total_patients, int page_number) {
+  emit SendPatientList(patients, total_patients, page_number);
 }
 
-void BusinessLogic::SaveNewPatient(Patient patient) {
+void BusinessLogic::SaveNewPatient(const Patient &patient) {
   comms_->PostPatient(patient);
 }
 
-void BusinessLogic::UpdatePatient(Patient patient) {
+void BusinessLogic::UpdatePatient(const Patient &patient) {
   comms_->PutPatient(patient);
 }
 
-void BusinessLogic::DeletePatient(int patientId) {
-  comms_->DeletePatient(patientId);
+void BusinessLogic::DeletePatient(const QString &uid) {
+  comms_->DeletePatient(uid);
 }
 
 void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
@@ -78,11 +77,11 @@ void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
   qDebug() << "errorSummary" << errorSummary;
 }
 
-void BusinessLogic::GetPatientFromList(Patient patient) {
+void BusinessLogic::GetPatientFromList(const Patient &patient) {
   emit SendPatient(patient);
 }
 
-void BusinessLogic::UpdateConfiguration(CommsConfiguration conf) {
+void BusinessLogic::UpdateConfiguration(const CommsConfiguration &conf) {
   if(db_->UpdateCommConfiguration(conf))
       comms_->SetCommsAddress(conf);
 }

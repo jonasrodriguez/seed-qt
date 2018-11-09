@@ -10,15 +10,15 @@ class IComms : public QObject {
   IComms() = default;
   virtual ~IComms() = default;
 
-  virtual void SetCommsAddress(CommsConfiguration conf) = 0;
+  virtual void SetCommsAddress(const CommsConfiguration &conf) = 0;
   virtual void Login(QString user, QString password) = 0;
-  virtual void GetPatientList() = 0;
-  virtual void PostPatient(Patient patient) = 0;
-  virtual void PutPatient(Patient patient) = 0;
-  virtual void DeletePatient(int patientId) = 0;
+  virtual void GetPatientList(int page) = 0;
+  virtual void PostPatient(const Patient &patient) = 0;
+  virtual void PutPatient(const Patient &patient) = 0;
+  virtual void DeletePatient(const QString &uid) = 0;
 
  signals:
-  void SendPatients(QVector<Patient> patients);
+  void SendPatients(QVector<Patient> patients, int total_patients, int page_number);
   void LoginSuccess(QString user);
   void ReportCommsError(int errorCode, QString errorSummary);
 };

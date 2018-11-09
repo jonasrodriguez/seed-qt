@@ -11,7 +11,7 @@ class DbManager : public IDb {
   bool AddUser(QString user, QString pass) override;
   bool CheckUser(QString user, QString pass) override;
   bool GetCommConfiguration(CommsConfiguration &conf) override;
-  bool UpdateCommConfiguration(CommsConfiguration conf) override;
+  bool UpdateCommConfiguration(const CommsConfiguration &conf) override;
 
  private:
   void CreateUsersTable();

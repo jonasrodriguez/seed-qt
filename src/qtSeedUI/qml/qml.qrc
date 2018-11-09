@@ -12,5 +12,6 @@
         <file>images/RefreshIcon.png</file>
         <file>elements/AddNewPatientButton.qml</file>
         <file>Configuration.qml</file>
+        <file>elements/LoadingPatientsAnimation.qml</file>
     </qresource>
 </RCC>
