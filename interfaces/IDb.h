@@ -15,7 +15,7 @@ class IDb {
   virtual bool CheckUser(QString user, QString pass) = 0;
 
   virtual bool GetCommConfiguration(CommsConfiguration &conf) = 0;
-  virtual bool UpdateCommConfiguration(CommsConfiguration conf) = 0;
+  virtual bool UpdateCommConfiguration(const CommsConfiguration &conf) = 0;
 };
 
 #endif  // IDB_H

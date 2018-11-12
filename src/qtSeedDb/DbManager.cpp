@@ -49,7 +49,7 @@ bool DbManager::GetCommConfiguration(CommsConfiguration &conf) {
     }
     return success;
 }
-bool DbManager::UpdateCommConfiguration(CommsConfiguration conf) {
+bool DbManager::UpdateCommConfiguration(const CommsConfiguration &conf) {
     bool success = false;
 
     QSqlQuery query;

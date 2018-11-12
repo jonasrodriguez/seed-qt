@@ -1,5 +1,4 @@
 #pragma once
-#include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QtNetwork>
 #include "IComms.h"
@@ -12,16 +11,14 @@ class Comms : public IComms {
   Comms();
   ~Comms() = default;
 
-  void SetCommsAddress(CommsConfiguration) override;
+  void SetCommsAddress(const CommsConfiguration &conf) override;
   void Login(QString user, QString password) override;
-  void GetPatientList() override;
-  void PostPatient(Patient patient) override;
-  void PutPatient(Patient patient) override;
-  void DeletePatient(int patientId) override;
+  void GetPatientList(int page) override;
+  void PostPatient(const Patient &patient) override;
+  void PutPatient(const Patient &patient) override;
+  void DeletePatient(const QString &uid) override;
 
- private:
-  Patient ReadJsonPatient(QJsonObject obj);
-  QByteArray CreateJsonPatient(Patient patient);
+private:
 
   void ProcessLogin(QNetworkReply *, QString user);
   void ProcessGetPatientsList(QNetworkReply *);
@@ -32,4 +29,6 @@ class Comms : public IComms {
  private:
   QString ip_;
   QByteArray auth_;
+  int page_number_;
+  int page_size_;
 };
