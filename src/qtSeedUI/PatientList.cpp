@@ -20,12 +20,11 @@ PatientList::PatientList(QObject *parent,
       total_patients_(0),
       current_page_(0),
       business_logic_(business_logic) {
+  QObject::connect(business_logic_.get(), &IBusiness::SendPatientList, this,
+                   &PatientList::InsertPatients);
 
-  QObject::connect(business_logic_.get(), &IBusiness::SendPatientList,
-                   this, &PatientList::InsertPatients);
-
-  QObject::connect(this, &PatientList::LoadMorePatients,
-                   this, &PatientList::RequestAdditionalPatients);
+  QObject::connect(this, &PatientList::LoadMorePatients, this,
+                   &PatientList::RequestAdditionalPatients);
 }
 
 int PatientList::rowCount(const QModelIndex & /* parent */) const {
@@ -38,9 +37,9 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
   if (index.row() >= total_patients_ || index.row() < 0) return QVariant();
 
   // Check if there are still patients to request from server
-  if ( (patient_list_.size() - index.row() < 4)
-        && patient_list_.size() != total_patients_)
-            emit LoadMorePatients();
+  if ((patient_list_.size() - index.row() < 4) &&
+      patient_list_.size() != total_patients_)
+    emit LoadMorePatients();
 
   switch (role) {
     case PatientRoles::posRole:
@@ -62,10 +61,12 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
   }
 }
 
-void PatientList::InsertPatients(QVector<Patient> patients, int total_patients, int page_number) {
+void PatientList::InsertPatients(QVector<Patient> patients, int total_patients,
+                                 int page_number) {
   ToggleLoading(false);
 
-  // If patients are in server's first page ->Clear list before inserting new patients
+  // If patients are in server's first page ->Clear list before inserting new
+  // patients
   if (current_page_ == 0 && !patient_list_.empty()) {
     ResetModel();
   }
@@ -73,7 +74,7 @@ void PatientList::InsertPatients(QVector<Patient> patients, int total_patients, 
   current_page_ = page_number;
   total_patients_ = total_patients;
 
-  //Do not call beginInsertRows if there are no patients in server side.
+  // Do not call beginInsertRows if there are no patients in server side.
   if (total_patients_ <= 0) return;
 
   beginInsertRows(QModelIndex(), patient_list_.size(),
@@ -101,7 +102,7 @@ void PatientList::sendPatientFromList(QString uuid) {
 }
 
 void PatientList::RequestAdditionalPatients() {
-  //Exit function if we are already loagind new patients
+  // Exit function if we are already loagind new patients
   if (loading_patients_) return;
 
   current_page_++;
@@ -110,8 +111,8 @@ void PatientList::RequestAdditionalPatients() {
 }
 
 void PatientList::ToggleLoading(bool load) {
-    loading_patients_ = load;
-    emit loadingPatients();
+  loading_patients_ = load;
+  emit loadingPatients();
 }
 
 void PatientList::ResetModel() {
