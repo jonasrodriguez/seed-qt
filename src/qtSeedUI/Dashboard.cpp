@@ -27,10 +27,10 @@ void Dashboard::ProcessLoginStatus(bool loginStatus) {
   }
 }
 
-void Dashboard::buttonSaveConf(QString ip) {
+void Dashboard::buttonSaveConf(QString ip, QString port) {
   CommsConfiguration conf;
   conf.ip = ip;
-  conf.port = port_.toInt();
+  conf.port = port.toInt();
 
   business_logic_->UpdateConfiguration(conf);
 }

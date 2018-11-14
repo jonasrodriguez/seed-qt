@@ -22,6 +22,7 @@ class IBusiness : public QObject {
   virtual void UpdateConfiguration(const CommsConfiguration &conf) = 0;
   virtual void GetConfiguration(CommsConfiguration &conf) = 0;
   virtual bool IsUserLogger() = 0;
+  virtual void FillServerDummyPatients() = 0;
 
  signals:
   void SendPatientList(QVector<Patient> patients, int total_patients, int page_number);

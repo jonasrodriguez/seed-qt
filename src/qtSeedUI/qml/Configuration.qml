@@ -4,14 +4,6 @@ import QtQuick.Layouts 1.3
 Item {
     anchors.fill: parent
 
-    property variant ipList: dashboardLogic.ip.split('.')
-    Component.onCompleted: {
-        ipRepeat.itemAt(0).children[0].text = ipList[0]
-        ipRepeat.itemAt(1).children[0].text = ipList[1]
-        ipRepeat.itemAt(2).children[0].text = ipList[2]
-        ipRepeat.itemAt(3).children[0].text = ipList[3]
-    }
-
     Item {
         id: ipArea
         width: parent.width / 3
@@ -30,37 +22,27 @@ Item {
                 font.family: "PT Mono"
                 font.pixelSize: 16
                 color: "#96cb2d"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.centerIn: parent
             }
         }
-        Item {
-            id: ipRows
+        Rectangle {
             height: ipLabel.height
             width: (ipArea.width - ipLabel.width) * 0.95
             anchors.top: parent.top
             anchors.left: ipLabel.right
             anchors.leftMargin: height * 0.40
-            RowLayout {
+            color: "#282828"
+
+            TextInput{
+                id: ipValue
+
+                text: dashboardLogic.ip
+                font.family: "PT Mono"
+                font.pixelSize: 16
+                color: "#cfc56a"
                 anchors.fill: parent
-                spacing: 5
-                Repeater {
-                    id: ipRepeat
-                    model: 4
-                    Rectangle {
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: ipRows.width / 4
-                        color: "#282828"
-                        TextInput{
-                            font.family: "PT Mono"
-                            font.pixelSize: 16
-                            color: "#cfc56a"
-                            maximumLength: 3
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
+                verticalAlignment: Text.AlignVCenter
+                anchors.leftMargin: parent.height / 3
             }
         }
     }
@@ -83,8 +65,7 @@ Item {
                 font.family: "PT Mono"
                 font.pixelSize: 16
                 color: "#96cb2d"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.centerIn: parent
             }
         }
         Rectangle {
@@ -97,13 +78,15 @@ Item {
             color: "#282828"
             TextInput{
                 id: portValue
+
+                text: dashboardLogic.port
                 font.family: "PT Mono"
                 font.pixelSize: 16
                 color: "#cfc56a"
-                maximumLength: 5
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: dashboardLogic.port
+                maximumLength: 8
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                anchors.leftMargin: parent.height / 3
             }
         }
     }
@@ -135,8 +118,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                dashboardLogic.buttonSaveConf(ipRepeat.itemAt(0).children[0].text + "." + ipRepeat.itemAt(1).children[0].text + "." +
-                                              ipRepeat.itemAt(2).children[0].text + "." + ipRepeat.itemAt(3).children[0].text)
+                dashboardLogic.buttonSaveConf(ipValue.text, portValue.text)
             }
         }
     }

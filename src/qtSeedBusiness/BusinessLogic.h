@@ -22,6 +22,7 @@ class BusinessLogic : public IBusiness {
   void UpdateConfiguration(const CommsConfiguration &conf) override;
   void GetConfiguration(CommsConfiguration &conf) override;
   bool IsUserLogger() override;
+  void FillServerDummyPatients() override;
 
  public slots:
   void ProcessLoginSuccess(QString user) override;

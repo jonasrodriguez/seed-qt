@@ -93,3 +93,23 @@ void BusinessLogic::GetConfiguration(CommsConfiguration &conf) {
 bool BusinessLogic::IsUserLogger() {
   return is_user_logger_;
 }
+
+//** For testing server pagination only **
+//Seed-cpp server currently has no concurrence support
+//Be sure to lower the threar pool to one (unsigned int threadPoolSize = 1)
+//before using this or it will crash!
+void BusinessLogic::FillServerDummyPatients() {
+  Patient patient;
+  for (int i = 0; i < 10 ; i++) {
+
+    patient.name    = "name" + QString::number(i);
+    patient.surname = "surname" + QString::number(i);
+    patient.email   = "email" + QString::number(i);
+    patient.dateOfBirth = "20181231T000000";
+    patient.address.coordinates = "cor" + QString::number(i);
+    patient.address.street = "street" + QString::number(i);
+    patient.address.city = "city" + QString::number(i);
+    patient.address.zip = "zip" + QString::number(i);
+    comms_->PostPatient(patient);
+  }
+}

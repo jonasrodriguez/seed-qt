@@ -65,17 +65,20 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
 void PatientList::InsertPatients(QVector<Patient> patients, int total_patients, int page_number) {
   ToggleLoading(false);
 
-  total_patients_ = total_patients;
-  current_page_ = page_number;
   // If patients are in server's first page ->Clear list before inserting new patients
   if (current_page_ == 0 && !patient_list_.empty()) {
-    beginRemoveRows(QModelIndex(), 0, patient_list_.size() - 1);
-    patient_list_.clear();
-    endRemoveRows();
+    ResetModel();
   }
+
+  current_page_ = page_number;
+  total_patients_ = total_patients;
+
+  //Do not call beginInsertRows if there are no patients in server side.
+  if (total_patients_ <= 0) return;
 
   beginInsertRows(QModelIndex(), patient_list_.size(),
                   patient_list_.size() + patients.size() - 1);
+
   for (auto i : patients) {
     patient_list_.push_back(i);
   }
@@ -109,4 +112,15 @@ void PatientList::RequestAdditionalPatients() {
 void PatientList::ToggleLoading(bool load) {
     loading_patients_ = load;
     emit loadingPatients();
+}
+
+void PatientList::ResetModel() {
+  total_patients_ = 0;
+  beginResetModel();
+  patient_list_.clear();
+  endResetModel();
+}
+
+void PatientList::fillServerDummyPatients() {
+  business_logic_->FillServerDummyPatients();
 }
