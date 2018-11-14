@@ -26,6 +26,7 @@ class PatientList : public QAbstractListModel {
   void deletePatient(const QString &uid);
   void refreshPatientList();
   void sendPatientFromList(QString uuid);
+  void fillServerDummyPatients();
 
  signals:
   void loadingPatients();
@@ -34,6 +35,7 @@ class PatientList : public QAbstractListModel {
  private:
   void RequestAdditionalPatients();
   void ToggleLoading(bool load);
+  void ResetModel();
 
  private:
   bool loading_patients_;

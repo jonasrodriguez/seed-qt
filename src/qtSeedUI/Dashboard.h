@@ -36,7 +36,7 @@ class Dashboard : public QObject {
   void ProcessLoginStatus(bool loginStatus);  
 
   void buttonLogin(QString user, QString pass);
-  void buttonSaveConf(QString ip);
+  void buttonSaveConf(QString ip, QString port);
 
   void buttonNavHome();
   void buttonNavLogout();

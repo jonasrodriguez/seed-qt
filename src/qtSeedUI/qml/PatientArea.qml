@@ -27,7 +27,7 @@ Item {
             font.family: "PT Mono"
             color: "white"
         }        
-    }
+    }    
 
     //Patient List
     Item {
@@ -106,6 +106,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: patientList.refreshPatientList()
+//            onPressAndHold: patientList.fillServerDummyPatients() //For testing purposes only!
         }
     }
 }

@@ -24,8 +24,8 @@ void BusinessLogic::StartUp() {
   db_->GetCommConfiguration(conf);
   comms_->SetCommsAddress(conf);
 
-  //Auto Login
-  comms_->Login("Systelab", "Systelab");
+  // Auto Login
+  //  comms_->Login("Systelab", "Systelab");
 }
 
 void BusinessLogic::ShutDown() {
@@ -44,15 +44,12 @@ void BusinessLogic::ProcessLoginSuccess(QString user) {
   emit SendLoginStatus(true);
 }
 
-void BusinessLogic::LogOut() {
-  is_user_logger_ = false;
-}
+void BusinessLogic::LogOut() { is_user_logger_ = false; }
 
-void BusinessLogic::GetPatientList(int page) {
-  comms_->GetPatientList(page);
-}
+void BusinessLogic::GetPatientList(int page) { comms_->GetPatientList(page); }
 
-void BusinessLogic::ProcessPatients(QVector<Patient> patients, int total_patients, int page_number) {
+void BusinessLogic::ProcessPatients(QVector<Patient> patients,
+                                    int total_patients, int page_number) {
   emit SendPatientList(patients, total_patients, page_number);
 }
 
@@ -82,14 +79,30 @@ void BusinessLogic::GetPatientFromList(const Patient &patient) {
 }
 
 void BusinessLogic::UpdateConfiguration(const CommsConfiguration &conf) {
-  if(db_->UpdateCommConfiguration(conf))
-      comms_->SetCommsAddress(conf);
+  if (db_->UpdateCommConfiguration(conf)) comms_->SetCommsAddress(conf);
 }
 
 void BusinessLogic::GetConfiguration(CommsConfiguration &conf) {
   db_->GetCommConfiguration(conf);
 }
 
-bool BusinessLogic::IsUserLogger() {
-  return is_user_logger_;
+bool BusinessLogic::IsUserLogger() { return is_user_logger_; }
+
+//** For testing server pagination only **
+// Seed-cpp server currently has no concurrence support
+// Be sure to lower the threar pool to one (unsigned int threadPoolSize = 1)
+// before using this or it will crash!
+void BusinessLogic::FillServerDummyPatients() {
+  Patient patient;
+  for (int i = 0; i < 10; i++) {
+    patient.name = "name" + QString::number(i);
+    patient.surname = "surname" + QString::number(i);
+    patient.email = "email" + QString::number(i);
+    patient.dateOfBirth = "20181231T000000";
+    patient.address.coordinates = "cor" + QString::number(i);
+    patient.address.street = "street" + QString::number(i);
+    patient.address.city = "city" + QString::number(i);
+    patient.address.zip = "zip" + QString::number(i);
+    comms_->PostPatient(patient);
+  }
 }
