@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f855d31fa64ab0805f74e927d287f0)](https://www.codacy.com/app/systelab/seed-qt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/seed-qt&amp;utm_campaign=Badge_Grade)
+
 # seed-qt — Seed for QT Systelab projects
 
 This project is an application skeleton for a typical QT application. You can use it to quickly bootstrap your projects and dev environment.
