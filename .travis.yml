@@ -5,14 +5,19 @@ dist: trusty
 before_install:
   # C++14
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -qq
 
 install: 
   # C++14
   - sudo apt-get install -qq g++-6
   # Qt5
-  - sudo apt-get install -qq qt57base; source /opt/qt57/bin/qt57-env.sh
+  - sudo apt-get install -qq qt510base
+
+before_script:
+  - QTDIR="/opt/qt510"
+  - PATH="$QTDIR/bin:$PATH"
+  - source /opt/qt510/bin/qt510-env.sh
 
 script: 
   - qmake --version
