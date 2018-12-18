@@ -15,12 +15,9 @@ install:
   - sudo apt-get install -qq qt510base qt510quickcontrols qt510quickcontrols2
 
 before_script:
-  - QTDIR="/opt/qt510"
-  - PATH="$QTDIR/bin:$PATH"
   - source /opt/qt510/bin/qt510-env.sh
 
 script: 
-  - qmake --version
   - mkdir build
   - cd build
   - cmake ..
