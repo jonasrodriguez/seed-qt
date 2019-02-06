@@ -40,7 +40,7 @@ void Comms::ProcessLogin(QNetworkReply* reply, QString user) {
 void Comms::GetPatientList(int page) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QString pagination("");
-  if (page > 0) {
+  if (page >= 0) {
        pagination = "?page=" + QString::number(page) + "&size=" + QString::number(page_size_);
   }
   QNetworkRequest request;
@@ -79,7 +79,7 @@ void Comms::PostPatient(const Patient &patient) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QByteArray patientJson = MessageHelper::CreateJsonPatient(patient);
   QNetworkRequest request;
-  request.setUrl(QUrl(ip_ + SeedEndpoint));
+  request.setUrl(QUrl(ip_ + SeedEndpoint + "/patient"));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   request.setRawHeader("Authorization", auth_);
   manager->post(request, patientJson);
