@@ -1,10 +1,8 @@
-#ifndef BUSINESSDEFINITIONS_H
-#define BUSINESSDEFINITIONS_H
+#pragma once
 
 #include <QString>
 
-static const int max_patients_message = 20;
-
+namespace seed {
 struct CommsConfiguration {
   QString ip;
   int port;
@@ -26,4 +24,4 @@ struct Patient {
   PatientAddress address;
 };
 
-#endif  // BUSINESSDEFINITIONS_H
+} // namespace seed

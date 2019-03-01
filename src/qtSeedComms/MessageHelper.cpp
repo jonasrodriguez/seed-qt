@@ -1,24 +1,24 @@
 #include "MessageHelper.h"
 #include <QJsonArray>
 
-
 int MessageHelper::NumberOfPatients(const QJsonDocument &doc) {
-    QJsonObject obj = doc.object();
-    QJsonValue total = obj.value(json_totalElements);
+  QJsonObject obj = doc.object();
+  QJsonValue total = obj.value(json_totalElements);
 
-    return total.toInt();
+  return total.toInt();
 }
 
-void MessageHelper::ReadPatientContent(const QJsonDocument &doc, QVector<Patient> &patients, int &page_number) {
+void MessageHelper::ReadPatientContent(const QJsonDocument &doc,
+                                       QVector<Patient> &patients,
+                                       int &page_number) {
 
   QJsonObject obj = doc.object();
   page_number = obj.value(json_number).toInt();
   QJsonArray content = obj.value(json_content).toArray();
-  foreach (const QJsonValue& value, content) {
+  foreach (const QJsonValue &value, content) {
     patients.push_back(ReadJsonPatient(value.toObject()));
   }
 }
-
 
 Patient MessageHelper::ReadJsonPatient(const QJsonObject &obj) {
   Patient patient;

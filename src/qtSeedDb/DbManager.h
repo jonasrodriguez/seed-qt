@@ -1,24 +1,24 @@
 #pragma once
-#include <QSqlDatabase>
 #include "IDb.h"
+#include <QSqlDatabase>
 
 class DbManager : public IDb {
- public:
+public:
   DbManager();
   ~DbManager() = default;
 
   void StartUp() override;
   bool AddUser(QString user, QString pass) override;
   bool CheckUser(QString user, QString pass) override;
-  bool GetCommConfiguration(CommsConfiguration &conf) override;
-  bool UpdateCommConfiguration(const CommsConfiguration &conf) override;
+  bool GetCommConfiguration(seed::CommsConfiguration &conf) override;
+  bool UpdateCommConfiguration(const seed::CommsConfiguration &conf) override;
 
- private:
+private:
   void CreateUsersTable();
   void CreateConfTable();
   bool ExistUser(QString user);
   QString EncryptPass(QString pass);
 
- private:
+private:
   QSqlDatabase data_base_;
 };

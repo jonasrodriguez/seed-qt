@@ -1,11 +1,13 @@
 #pragma once
-#include <memory>
 #include "IBusiness.h"
 #include "IComms.h"
 #include "IDb.h"
+#include <memory>
+
+using namespace seed;
 
 class BusinessLogic : public IBusiness {
- public:
+public:
   BusinessLogic();
   ~BusinessLogic() = default;
 
@@ -24,12 +26,13 @@ class BusinessLogic : public IBusiness {
   bool IsUserLogger() override;
   void FillServerDummyPatients() override;
 
- public slots:
+public slots:
   void ProcessLoginSuccess(QString user) override;
-  void ProcessPatients(QVector<Patient> patients, int total_patients, int page_number) override;
+  void ProcessPatients(QVector<Patient> patients, int total_patients,
+                       int page_number) override;
   void ProcessCommsError(int errorCode, QString errorSummary) override;
 
- private:
+private:
   std::unique_ptr<IComms> comms_;
   std::unique_ptr<IDb> db_;
   bool is_user_logger_;

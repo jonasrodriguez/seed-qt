@@ -1,9 +1,9 @@
 #ifndef PATIENTHELPER_H
 #define PATIENTHELPER_H
 
+#include "Definitions.h"
 #include <QDate>
 #include <QObject>
-#include "BusinessDefinitions.h"
 
 class PatientHelper : public QObject {
   Q_OBJECT
@@ -19,13 +19,13 @@ class PatientHelper : public QObject {
   Q_PROPERTY(QString city MEMBER city_ NOTIFY patientChanged)
   Q_PROPERTY(QString zip MEMBER zip_ NOTIFY patientChanged)
 
- public:
+public:
   PatientHelper(QObject *parent = nullptr) : QObject(parent) {
     initializePatient();
   }
 
-  Patient getPatient() {
-    Patient p;
+  seed::Patient getPatient() {
+    seed::Patient p;
     p.id = id_;
     p.name = name_;
     p.surname = surname_;
@@ -38,7 +38,7 @@ class PatientHelper : public QObject {
     return p;
   }
 
-  void setPatient(Patient patient) {
+  void setPatient(seed::Patient patient) {
     id_ = patient.id;
     name_ = patient.name;
     surname_ = patient.surname;
@@ -64,15 +64,17 @@ class PatientHelper : public QObject {
 
     dobYear_ = QString::number(QDate::currentDate().year());
     dobMonth_ = QString::number(QDate::currentDate().month());
-    if (dobMonth_.length() < 2) dobMonth_.prepend("0");
+    if (dobMonth_.length() < 2)
+      dobMonth_.prepend("0");
     dobDay_ = QString::number(QDate::currentDate().day());
-    if (dobDay_.length() < 2) dobDay_.prepend("0");
+    if (dobDay_.length() < 2)
+      dobDay_.prepend("0");
   }
 
- signals:
+signals:
   void patientChanged();
 
- private:
+private:
   QString id_;
   QString name_;
   QString surname_;
@@ -86,4 +88,4 @@ class PatientHelper : public QObject {
   QString city_;
 };
 
-#endif  // PATIENTHELPER_H
+#endif // PATIENTHELPER_H
