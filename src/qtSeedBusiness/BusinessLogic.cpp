@@ -1,7 +1,7 @@
 #include "BusinessLogic.h"
-#include <QDebug>
 #include "Comms.h"
 #include "DbManager.h"
+#include <QDebug>
 
 BusinessLogic::BusinessLogic() : is_user_logger_(false) {
   comms_ = std::unique_ptr<IComms>(new Comms);
@@ -79,7 +79,8 @@ void BusinessLogic::GetPatientFromList(const Patient &patient) {
 }
 
 void BusinessLogic::UpdateConfiguration(const CommsConfiguration &conf) {
-  if (db_->UpdateCommConfiguration(conf)) comms_->SetCommsAddress(conf);
+  if (db_->UpdateCommConfiguration(conf))
+    comms_->SetCommsAddress(conf);
 }
 
 void BusinessLogic::GetConfiguration(CommsConfiguration &conf) {
