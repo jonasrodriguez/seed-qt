@@ -21,4 +21,4 @@ file(GLOB_RECURSE QRC "qtSeedUI/*.qrc"  )
 add_executable(${PROJECT_NAME} ${SRC} ${HDR} ${QRC})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql)
-target_link_libraries(${PROJECT_NAME} ${SEED_BUSI} ${SEED_COMMS} ${SEED_DB})
+target_link_libraries(${PROJECT_NAME} ${SEED_BUSI} ${SEED_COMMS} ${SEED_DB} ${SEED_UI})
