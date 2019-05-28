@@ -33,5 +33,4 @@ script:
   - cd build
   - cmake ..
   - make
-  - cd build/test
-  - ./TestComms
+  - ls -la
