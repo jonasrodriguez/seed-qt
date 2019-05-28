@@ -33,4 +33,6 @@ script:
   - cd build
   - cmake ..
   - make
+  - cd test
   - ls -la
+  - ./TesstComms
