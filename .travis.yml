@@ -35,4 +35,4 @@ script:
   - make
   - cd test
   - ls -la
-  - ./TesstComms
+  - ./TestComms
