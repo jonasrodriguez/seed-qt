@@ -1,2 +1,5 @@
 # IDE files
 *.user
+
+# Build dir
+build/
