@@ -22,7 +22,7 @@ before_script:
   - source /opt/qt510/bin/qt510-env.sh
   - sudo apt-get install cmake
   - cd googletest-release-1.8.1
-  - sudo cmake -DBUILD_SHARED_LIBS=ON .
+  - sudo cmake .
   - sudo make
   - sudo cp -a include/gtest /usr/include
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
