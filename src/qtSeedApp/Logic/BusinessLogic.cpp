@@ -38,7 +38,7 @@ void BusinessLogic::LoginUser(QString user, QString pass) {
   comms_->Login(user, pass);
 }
 
-void BusinessLogic::ProcessLoginSuccess(QString user) {
+void BusinessLogic::ProcessLoginSuccess(const QString &user) {
   QString user_logged(user);
   is_user_logger_ = true;
   emit SendLoginStatus(true);
@@ -48,8 +48,9 @@ void BusinessLogic::LogOut() { is_user_logger_ = false; }
 
 void BusinessLogic::GetPatientList(int page) { comms_->GetPatientList(page); }
 
-void BusinessLogic::ProcessPatients(QVector<Patient> patients,
-                                    int total_patients, int page_number) {
+void BusinessLogic::ProcessPatients(const QVector<Patient> &patients,
+                                    const int &total_patients,
+                                    const int &page_number) {
   emit SendPatientList(patients, total_patients, page_number);
 }
 
@@ -65,7 +66,8 @@ void BusinessLogic::DeletePatient(const QString &uid) {
   comms_->DeletePatient(uid);
 }
 
-void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
+void BusinessLogic::ProcessCommsError(const int &errorCode,
+                                      const QString &errorSummary) {
   if (errorCode == 401) {
     is_user_logger_ = false;
     emit SendLoginStatus(false);

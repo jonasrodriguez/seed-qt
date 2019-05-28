@@ -1,7 +1,7 @@
 #ifndef IDB_H
 #define IDB_H
 
-#include "Definitions.h"
+#include "Logic/Types.h"
 #include <QString>
 
 class IDb {

@@ -1,11 +1,12 @@
 #include "Dashboard.h"
+#include "Logic/BusinessLogic.h"
 
 Dashboard::Dashboard(QObject *parent,
-                     std::shared_ptr<IBusiness> &business_logic)
+                     std::shared_ptr<BusinessLogic> &business_logic)
     : QObject(parent), business_logic_(business_logic), login_error_(""),
       navigation_("") {
 
-  QObject::connect(business_logic_.get(), &IBusiness::SendLoginStatus, this,
+  QObject::connect(business_logic_.get(), &BusinessLogic::SendLoginStatus, this,
                    &Dashboard::ProcessLoginStatus);
 
   UpdateNavigation(navMap::login);

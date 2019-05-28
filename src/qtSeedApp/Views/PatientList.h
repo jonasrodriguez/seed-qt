@@ -1,6 +1,8 @@
-#include "IBusiness.h"
+#include "Logic/Types.h"
 #include <QAbstractListModel>
 #include <memory>
+
+class BusinessLogic;
 
 class PatientList : public QAbstractListModel {
   Q_OBJECT
@@ -15,7 +17,7 @@ public:
     emailRole,
     dobRole
   };
-  PatientList(QObject *parent, std::shared_ptr<IBusiness> &business_logic);
+  PatientList(QObject *parent, std::shared_ptr<BusinessLogic> &business_logic);
 
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
   QVariant data(const QModelIndex &index,
@@ -44,5 +46,5 @@ private:
   int total_patients_;
   int current_page_;
   QVector<seed::Patient> patient_list_;
-  std::shared_ptr<IBusiness> business_logic_;
+  std::shared_ptr<BusinessLogic> business_logic_;
 };
