@@ -24,8 +24,6 @@ install:
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 
 before_script:
-  - sudo cd /usr/src/gtest
-  - sudo ls -la
   - source /opt/qt510/bin/qt510-env.sh
   - sudo apt-get install cmake
 
