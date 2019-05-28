@@ -13,6 +13,8 @@ install:
   - sudo apt-get install -qq g++-6
   # Qt5
   - sudo apt-get install -qq qt510base qt510quickcontrols qt510quickcontrols2
+  #GTest
+  - sudo apt-get install libgtest-dev
 
 before_script:
   - source /opt/qt510/bin/qt510-env.sh
