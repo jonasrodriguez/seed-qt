@@ -9,6 +9,8 @@ void Comms::SetCommsAddress(const CommsConfiguration &conf) {
   ip_ = "http://" + conf.ip + ":" + QString::number(conf.port);
 };
 
+QString Comms::GetCommsAddres() { return ip_; }
+
 void Comms::Login(QString user, QString password) {
   QNetworkAccessManager *manager = new QNetworkAccessManager();
   QNetworkRequest request;

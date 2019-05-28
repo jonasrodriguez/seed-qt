@@ -11,6 +11,7 @@ public:
   virtual ~IComms() = default;
 
   virtual void SetCommsAddress(const seed::CommsConfiguration &conf) = 0;
+  virtual QString GetCommsAddres() = 0;
   virtual void Login(QString user, QString password) = 0;
   virtual void GetPatientList(int page) = 0;
   virtual void PostPatient(const seed::Patient &patient) = 0;

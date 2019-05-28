@@ -14,6 +14,7 @@ public:
   ~Comms() = default;
 
   void SetCommsAddress(const CommsConfiguration &conf) override;
+  QString GetCommsAddres() override;
   void Login(QString user, QString password) override;
   void GetPatientList(int page) override;
   void PostPatient(const Patient &patient) override;

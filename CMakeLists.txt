@@ -8,11 +8,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core Quick Sql REQUIRED)
+set(LIBS_DIR ${CMAKE_BINARY_DIR}/libs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBS_DIR})
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
-# Locate GTest
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS} REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Sql REQUIRED)
 
 # Add src
 add_subdirectory(${CMAKE_SOURCE_DIR}/src)
