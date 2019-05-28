@@ -6,7 +6,7 @@ before_install:
   # C++14
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
-  - sudo apt-get update -qq
+  - sudo apt-get update -qq  
 
 install: 
   # C++14
@@ -15,6 +15,13 @@ install:
   - sudo apt-get install -qq qt510base qt510quickcontrols qt510quickcontrols2
   #GTest
   - sudo apt-get install libgtest-dev
+  - sudo https://github.com/google/googletest/archive/release-1.8.1.tar.gz
+  - sudo tar xf release-1.8.1.tar.gz
+  - cd googletest-release-1.8.1
+  - sudo cmake -DBUILD_SHARED_LIBS=ON .
+  - sudo make
+  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 
 before_script:
   - sudo cd /usr/src/gtest
