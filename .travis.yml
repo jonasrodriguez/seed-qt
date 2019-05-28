@@ -33,5 +33,5 @@ script:
   - cd build
   - cmake ..
   - make
-  - cd build/TestComms
+  - cd build/test
   - ./TestComms
