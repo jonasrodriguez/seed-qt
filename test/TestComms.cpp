@@ -1,9 +1,18 @@
 #include <gtest/gtest.h>
 
+#include "Comms.h"
+
 TEST(TestComms, Test1) {
-  int x = 1;
-  int y = 2;
-  ASSERT_EQ(x + x, y);
+  CommsConfiguration cnf;
+  cnf.ip = "google.com";
+  cnf.port = 1234;
+
+  Comms comms;
+  comms.SetCommsAddress(cnf);
+
+  QString ip("http://" + cnf.ip + ":" + QString::number(cnf.port));
+
+  ASSERT_EQ(comms.GetCommsAddres(), ip);
 }
 
 int main(int argc, char **argv) {
