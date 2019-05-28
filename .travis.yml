@@ -28,9 +28,10 @@ before_script:
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 
 script: 
-  - sudo mkdir build
+  - cd ..
+  - mkdir build
   - cd build
-  - sudo cmake ..
-  - sudo make
+  - cmake ..
+  - make
   - cd build/TestComms
   - ./TestComms
