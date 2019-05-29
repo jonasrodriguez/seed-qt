@@ -2,7 +2,7 @@
 
 #include "Comms.h"
 
-TEST(TestComms, Test1) {
+TEST(TestComms, Config) {
   CommsConfiguration cnf;
   cnf.ip = "google.com";
   cnf.port = 1234;

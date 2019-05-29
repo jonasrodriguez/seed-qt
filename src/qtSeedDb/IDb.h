@@ -9,10 +9,7 @@ public:
   IDb() = default;
   virtual ~IDb() = default;
 
-  virtual void StartUp() = 0;
-
-  virtual bool AddUser(QString user, QString pass) = 0;
-  virtual bool CheckUser(QString user, QString pass) = 0;
+  virtual bool StartUp() = 0;
 
   virtual bool GetCommConfiguration(seed::CommsConfiguration &conf) = 0;
   virtual bool
