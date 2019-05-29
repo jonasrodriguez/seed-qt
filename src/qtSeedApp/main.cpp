@@ -4,11 +4,10 @@
 #include <QQuickWindow>
 #include <memory>
 
-#include "BusinessLogic.h"
-#include "Dashboard.h"
-#include "IBusiness.h"
-#include "PatientList.h"
-#include "PatientDialog.h"
+#include "Logic/BusinessLogic.h"
+#include "Views/Dashboard.h"
+#include "Views/PatientDialog.h"
+#include "Views/PatientList.h"
 
 int main(int argc, char *argv[]) {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -17,7 +16,7 @@ int main(int argc, char *argv[]) {
 
   QQmlApplicationEngine engine;
 
-  std::shared_ptr<IBusiness> business_logic(new BusinessLogic);
+  std::shared_ptr<BusinessLogic> business_logic(new BusinessLogic);
   business_logic->StartUp();
 
   Dashboard dashboard(nullptr, business_logic);
@@ -30,10 +29,11 @@ int main(int argc, char *argv[]) {
   engine.rootContext()->setContextProperty("patientDialog", &patientDialog);
 
   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-  if (engine.rootObjects().isEmpty()) return -1;
+  if (engine.rootObjects().isEmpty())
+    return -1;
 
-
-  QObject::connect(&app, &QCoreApplication::aboutToQuit, [&]() { business_logic->ShutDown(); });
+  QObject::connect(&app, &QCoreApplication::aboutToQuit,
+                   [&]() { business_logic->ShutDown(); });
 
   return app.exec();
 }

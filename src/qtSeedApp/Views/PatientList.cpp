@@ -1,4 +1,5 @@
 #include "PatientList.h"
+#include "Logic/BusinessLogic.h"
 
 QHash<int, QByteArray> PatientList::roleNames() const {
   QHash<int, QByteArray> roles;
@@ -14,10 +15,10 @@ QHash<int, QByteArray> PatientList::roleNames() const {
 }
 
 PatientList::PatientList(QObject *parent,
-                         std::shared_ptr<IBusiness> &business_logic)
+                         std::shared_ptr<BusinessLogic> &business_logic)
     : QAbstractListModel(parent), loading_patients_(false), total_patients_(0),
       current_page_(0), business_logic_(business_logic) {
-  QObject::connect(business_logic_.get(), &IBusiness::SendPatientList, this,
+  QObject::connect(business_logic_.get(), &BusinessLogic::SendPatientList, this,
                    &PatientList::InsertPatients);
 
   QObject::connect(this, &PatientList::LoadMorePatients, this,

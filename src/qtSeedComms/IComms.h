@@ -1,7 +1,7 @@
 #ifndef ICOMMS_H
 #define ICOMMS_H
 
-#include "Definitions.h"
+#include "Logic/Types.h"
 #include <QObject>
 
 class IComms : public QObject {

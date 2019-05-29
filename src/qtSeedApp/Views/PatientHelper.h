@@ -1,7 +1,7 @@
 #ifndef PATIENTHELPER_H
 #define PATIENTHELPER_H
 
-#include "Definitions.h"
+#include "Logic/Types.h"
 #include <QDate>
 #include <QObject>
 

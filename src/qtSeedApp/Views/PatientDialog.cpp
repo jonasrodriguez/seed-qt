@@ -1,12 +1,13 @@
 #include "PatientDialog.h"
-#include "Definitions.h"
+#include "Logic/BusinessLogic.h"
+#include "Logic/Types.h"
 
 PatientDialog::PatientDialog(QObject *parent,
-                             std::shared_ptr<IBusiness> &business_logic)
+                             std::shared_ptr<BusinessLogic> &business_logic)
     : QObject(parent), business_logic_(business_logic), new_patient_(true) {
 
   patient_helper_ = std::unique_ptr<PatientHelper>(new PatientHelper);
-  QObject::connect(business_logic_.get(), &IBusiness::SendPatient, this,
+  QObject::connect(business_logic_.get(), &BusinessLogic::SendPatient, this,
                    &PatientDialog::GetPatientInfoFromList);
 }
 

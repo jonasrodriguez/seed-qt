@@ -1,7 +1,7 @@
 #ifndef MESSAGEHELPER_H
 #define MESSAGEHELPER_H
 
-#include "Definitions.h"
+#include "Logic/Types.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QString>
