@@ -48,7 +48,7 @@ void BusinessLogic::LogOut() { is_user_logger_ = false; }
 
 void BusinessLogic::GetPatientList(int page) { comms_->GetPatientList(page); }
 
-void BusinessLogic::ProcessPatients(const QVector<Patient> &patients,
+void BusinessLogic::ProcessPatients(const QVariantList &patients,
                                     const int &total_patients,
                                     const int &page_number) {
   emit SendPatientList(patients, total_patients, page_number);
@@ -102,10 +102,10 @@ void BusinessLogic::FillServerDummyPatients() {
     patient.surname = "surname" + QString::number(i);
     patient.email = "email" + QString::number(i);
     patient.dateOfBirth = "20181231T000000";
-    patient.address.coordinates = "cor" + QString::number(i);
-    patient.address.street = "street" + QString::number(i);
-    patient.address.city = "city" + QString::number(i);
-    patient.address.zip = "zip" + QString::number(i);
+    patient.coordinates = "cor" + QString::number(i);
+    patient.street = "street" + QString::number(i);
+    patient.city = "city" + QString::number(i);
+    patient.zip = "zip" + QString::number(i);
     comms_->PostPatient(patient);
   }
 }

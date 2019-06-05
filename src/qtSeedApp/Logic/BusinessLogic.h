@@ -30,15 +30,15 @@ public:
   void FillServerDummyPatients();
 
 signals:
-  void SendPatientList(QVector<Patient> patients, const int &total_patients,
+  void SendPatientList(const QVariantList &, const int &total_patients,
                        const int &page_number);
   void SendLoginStatus(const bool &loginStatus);
   void SendPatient(const Patient &patient);
 
 public slots:
   void ProcessLoginSuccess(const QString &user);
-  void ProcessPatients(const QVector<Patient> &patients,
-                       const int &total_patients, const int &page_number);
+  void ProcessPatients(const QVariantList &patients, const int &total_patients,
+                       const int &page_number);
   void ProcessCommsError(const int &errorCode, const QString &errorSummary);
 
 private:
