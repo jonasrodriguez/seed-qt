@@ -61,7 +61,7 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
   }
 }
 
-void PatientList::InsertPatients(QVector<seed::Patient> patients,
+void PatientList::InsertPatients(const QVariantList &patients,
                                  int total_patients, int page_number) {
   ToggleLoading(false);
 
@@ -82,7 +82,8 @@ void PatientList::InsertPatients(QVector<seed::Patient> patients,
                   patient_list_.size() + patients.size() - 1);
 
   for (auto i : patients) {
-    patient_list_.push_back(i);
+    Patient patient = i.value<seed::Patient>();
+    patient_list_.push_back(patient);
   }
   endInsertRows();
 }

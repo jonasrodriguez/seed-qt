@@ -73,7 +73,13 @@ void Comms::ProcessGetPatientsList(QNetworkReply *reply) {
     MessageHelper::ReadPatientContent(jsonDoc, patients, page_number);
   }
 
-  emit SendPatients(patients, total_patients, page_number);
+  // Store patient info into a QVariant List
+  QVariantList list;
+  for (auto p : patients) {
+    list.append(QVariant::fromValue<seed::Patient>(p));
+  }
+
+  emit SendPatients(list, total_patients, page_number);
 }
 
 void Comms::PostPatient(const Patient &patient) {

@@ -25,7 +25,7 @@ public:
   QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-  void InsertPatients(QVector<seed::Patient> patients, int total_patients,
+  void InsertPatients(const QVariantList &, int total_patients,
                       int page_number);
   void deletePatient(const QString &uid);
   void refreshPatientList();

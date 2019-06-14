@@ -19,8 +19,7 @@ public:
   virtual void DeletePatient(const QString &uid) = 0;
 
 signals:
-  void SendPatients(QVector<seed::Patient> patients, int total_patients,
-                    int page_number);
+  void SendPatients(const QVariantList &, int total_patients, int page_number);
   void LoginSuccess(QString user);
   void ReportCommsError(int errorCode, QString errorSummary);
 };

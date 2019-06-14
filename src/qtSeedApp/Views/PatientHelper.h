@@ -31,10 +31,10 @@ public:
     p.surname = surname_;
     p.email = email_;
     p.dateOfBirth = dobYear_ + dobMonth_ + dobDay_ + "T000000";
-    p.address.coordinates = coor_;
-    p.address.street = street_;
-    p.address.city = city_;
-    p.address.zip = zip_;
+    p.coordinates = coor_;
+    p.street = street_;
+    p.city = city_;
+    p.zip = zip_;
     return p;
   }
 
@@ -46,10 +46,10 @@ public:
     dobYear_ = patient.dateOfBirth.left(4);
     dobMonth_ = patient.dateOfBirth.mid(4, 2);
     dobDay_ = patient.dateOfBirth.mid(6, 2);
-    coor_ = patient.address.coordinates;
-    street_ = patient.address.street;
-    city_ = patient.address.city;
-    zip_ = patient.address.zip;
+    coor_ = patient.coordinates;
+    street_ = patient.street;
+    city_ = patient.city;
+    zip_ = patient.zip;
   }
 
   void initializePatient() {

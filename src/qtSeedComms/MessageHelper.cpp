@@ -28,15 +28,12 @@ Patient MessageHelper::ReadJsonPatient(const QJsonObject &obj) {
   patient.email = obj[json_email].toString();
   patient.dateOfBirth = obj[json_dob].toString();
 
-  PatientAddress address;
   QJsonObject add = obj[json_address].toObject();
 
-  address.coordinates = add[json_coordinates].toString();
-  address.street = add[json_street].toString();
-  address.city = add[json_city].toString();
-  address.zip = add[json_zip].toString();
-  patient.address = address;
-
+  patient.coordinates = add[json_coordinates].toString();
+  patient.street = add[json_street].toString();
+  patient.city = add[json_city].toString();
+  patient.zip = add[json_zip].toString();
   return patient;
 }
 
@@ -48,10 +45,10 @@ QByteArray MessageHelper::CreateJsonPatient(const Patient &patient) {
   patientObject.insert(json_dob, patient.dateOfBirth);
 
   QJsonObject addressObject;
-  addressObject.insert(json_coordinates, patient.address.coordinates);
-  addressObject.insert(json_street, patient.address.street);
-  addressObject.insert(json_city, patient.address.city);
-  addressObject.insert(json_zip, patient.address.zip);
+  addressObject.insert(json_coordinates, patient.coordinates);
+  addressObject.insert(json_street, patient.street);
+  addressObject.insert(json_city, patient.city);
+  addressObject.insert(json_zip, patient.zip);
   patientObject.insert(json_address, addressObject);
 
   QJsonDocument patientDocument(patientObject);
