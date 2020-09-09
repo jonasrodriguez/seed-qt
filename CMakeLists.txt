@@ -1,24 +1,21 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.2)
 
-project(seed-qt LANGUAGES CXX)
+project(seed-qt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(LIBS_DIR ${CMAKE_BINARY_DIR}/libs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBS_DIR})
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
 find_package(Qt5 COMPONENTS Core Quick Sql REQUIRED)
 
-# include
-include_directories(${CMAKE_SOURCE_DIR}/interfaces ${CMAKE_SOURCE_DIR}/src/qtSeedUI ${CMAKE_SOURCE_DIR}/src/qtSeedUI/utilities)
-include_directories(${CMAKE_SOURCE_DIR}/src/qtSeedComms ${CMAKE_SOURCE_DIR}/src/qtSeedDb ${CMAKE_SOURCE_DIR}/src/qtSeedBusiness)
+# Add src
+add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 
-# Looking for files
-file(GLOB_RECURSE SRC "src/*.cpp" )
-file(GLOB_RECURSE HDR "src/*.h" "interfaces/*.h" )
-file(GLOB_RECURSE QRC "src/*qrc")
-
-add_executable(${PROJECT_NAME} ${SRC} ${HDR} ${QRC})
-
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql)
+# Add test
+add_subdirectory(${CMAKE_SOURCE_DIR}/test)

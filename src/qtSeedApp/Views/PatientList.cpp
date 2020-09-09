@@ -1,4 +1,5 @@
 #include "PatientList.h"
+#include "Logic/BusinessLogic.h"
 
 QHash<int, QByteArray> PatientList::roleNames() const {
   QHash<int, QByteArray> roles;
@@ -14,13 +15,10 @@ QHash<int, QByteArray> PatientList::roleNames() const {
 }
 
 PatientList::PatientList(QObject *parent,
-                         std::shared_ptr<IBusiness> &business_logic)
-    : QAbstractListModel(parent),
-      loading_patients_(false),
-      total_patients_(0),
-      current_page_(0),
-      business_logic_(business_logic) {
-  QObject::connect(business_logic_.get(), &IBusiness::SendPatientList, this,
+                         std::shared_ptr<BusinessLogic> &business_logic)
+    : QAbstractListModel(parent), loading_patients_(false), total_patients_(0),
+      current_page_(0), business_logic_(business_logic) {
+  QObject::connect(business_logic_.get(), &BusinessLogic::SendPatientList, this,
                    &PatientList::InsertPatients);
 
   QObject::connect(this, &PatientList::LoadMorePatients, this,
@@ -32,9 +30,11 @@ int PatientList::rowCount(const QModelIndex & /* parent */) const {
 }
 
 QVariant PatientList::data(const QModelIndex &index, int role) const {
-  if (!index.isValid()) return QVariant();
+  if (!index.isValid())
+    return QVariant();
 
-  if (index.row() >= total_patients_ || index.row() < 0) return QVariant();
+  if (index.row() >= total_patients_ || index.row() < 0)
+    return QVariant();
 
   // Check if there are still patients to request from server
   if ((patient_list_.size() - index.row() < 4) &&
@@ -42,27 +42,27 @@ QVariant PatientList::data(const QModelIndex &index, int role) const {
     emit LoadMorePatients();
 
   switch (role) {
-    case PatientRoles::posRole:
-      return patient_list_.at(index.row()).id.left(3);
-    case PatientRoles::idRole:
-      return patient_list_.at(index.row()).id;
-    case PatientRoles::nameRole:
-      return patient_list_.at(index.row()).name;
-    case PatientRoles::surnameRole:
-      return patient_list_.at(index.row()).surname;
-    case PatientRoles::emailRole:
-      return patient_list_.at(index.row()).email;
-    case PatientRoles::dobRole: {
-      QString dob(patient_list_.at(index.row()).dateOfBirth);
-      return dob.left(4) + "/" + dob.mid(4, 2) + "/" + dob.mid(6, 2);
-    }
-    default:
-      return QVariant();
+  case PatientRoles::posRole:
+    return patient_list_.at(index.row()).id.left(3);
+  case PatientRoles::idRole:
+    return patient_list_.at(index.row()).id;
+  case PatientRoles::nameRole:
+    return patient_list_.at(index.row()).name;
+  case PatientRoles::surnameRole:
+    return patient_list_.at(index.row()).surname;
+  case PatientRoles::emailRole:
+    return patient_list_.at(index.row()).email;
+  case PatientRoles::dobRole: {
+    QString dob(patient_list_.at(index.row()).dateOfBirth);
+    return dob.left(4) + "/" + dob.mid(4, 2) + "/" + dob.mid(6, 2);
+  }
+  default:
+    return QVariant();
   }
 }
 
-void PatientList::InsertPatients(QVector<Patient> patients, int total_patients,
-                                 int page_number) {
+void PatientList::InsertPatients(const QVariantList &patients,
+                                 int total_patients, int page_number) {
   ToggleLoading(false);
 
   // If patients are in server's first page ->Clear list before inserting new
@@ -75,13 +75,15 @@ void PatientList::InsertPatients(QVector<Patient> patients, int total_patients,
   total_patients_ = total_patients;
 
   // Do not call beginInsertRows if there are no patients in server side.
-  if (total_patients_ <= 0) return;
+  if (total_patients_ <= 0)
+    return;
 
   beginInsertRows(QModelIndex(), patient_list_.size(),
                   patient_list_.size() + patients.size() - 1);
 
   for (auto i : patients) {
-    patient_list_.push_back(i);
+    Patient patient = i.value<seed::Patient>();
+    patient_list_.push_back(patient);
   }
   endInsertRows();
 }
@@ -103,7 +105,8 @@ void PatientList::sendPatientFromList(QString uuid) {
 
 void PatientList::RequestAdditionalPatients() {
   // Exit function if we are already loagind new patients
-  if (loading_patients_) return;
+  if (loading_patients_)
+    return;
 
   current_page_++;
   business_logic_->GetPatientList(current_page_);

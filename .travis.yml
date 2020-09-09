@@ -6,19 +6,33 @@ before_install:
   # C++14
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
-  - sudo apt-get update -qq
+  - sudo apt-get update -qq  
 
 install: 
   # C++14
   - sudo apt-get install -qq g++-6
   # Qt5
   - sudo apt-get install -qq qt510base qt510quickcontrols qt510quickcontrols2
+  #GTest
+  - sudo apt-get install libgtest-dev
+  - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
+  - sudo tar xf release-1.7.0.tar.gz
 
 before_script:
   - source /opt/qt510/bin/qt510-env.sh
+  - sudo apt-get install cmake
+  - cd googletest-release-1.7.0
+  - sudo cmake -DBUILD_SHARED_LIBS=ON .
+  - sudo make
+  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 
 script: 
+  - cd ..
   - mkdir build
   - cd build
   - cmake ..
   - make
+  - cd test
+  - ls -la
+  - ./TestComms

@@ -1,7 +1,7 @@
 #ifndef MESSAGEHELPER_H
 #define MESSAGEHELPER_H
 
-#include "BusinessDefinitions.h"
+#include "Logic/Types.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QString>
@@ -27,18 +27,18 @@ static const QString json_numberElements = "numberOfElements";
 static const QString json_zie = "size";
 static const QString json_totalPages = "totalPages";
 
+using namespace seed;
 
-class MessageHelper
-{
+class MessageHelper {
 public:
-
-    static void ReadPatientContent(const QJsonDocument &doc, QVector<Patient> &patients, int &page_number);
-    static int NumberOfPatients(const QJsonDocument &doc);
-    static QByteArray CreateJsonPatient(const Patient &patient);
+  static void ReadPatientContent(const QJsonDocument &doc,
+                                 QVector<Patient> &patients, int &page_number);
+  static int NumberOfPatients(const QJsonDocument &doc);
+  static QByteArray CreateJsonPatient(const Patient &patient);
 
 private:
-    MessageHelper() {}
-    static Patient ReadJsonPatient(const QJsonObject &obj);
+  MessageHelper() {}
+  static Patient ReadJsonPatient(const QJsonObject &obj);
 };
 
-#endif  // MESSAGEHELPER_H
+#endif // MESSAGEHELPER_H

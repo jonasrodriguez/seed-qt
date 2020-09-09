@@ -1,7 +1,7 @@
 #include "BusinessLogic.h"
-#include <QDebug>
 #include "Comms.h"
 #include "DbManager.h"
+#include <QDebug>
 
 BusinessLogic::BusinessLogic() : is_user_logger_(false) {
   comms_ = std::unique_ptr<IComms>(new Comms);
@@ -38,7 +38,7 @@ void BusinessLogic::LoginUser(QString user, QString pass) {
   comms_->Login(user, pass);
 }
 
-void BusinessLogic::ProcessLoginSuccess(QString user) {
+void BusinessLogic::ProcessLoginSuccess(const QString &user) {
   QString user_logged(user);
   is_user_logger_ = true;
   emit SendLoginStatus(true);
@@ -48,8 +48,9 @@ void BusinessLogic::LogOut() { is_user_logger_ = false; }
 
 void BusinessLogic::GetPatientList(int page) { comms_->GetPatientList(page); }
 
-void BusinessLogic::ProcessPatients(QVector<Patient> patients,
-                                    int total_patients, int page_number) {
+void BusinessLogic::ProcessPatients(const QVariantList &patients,
+                                    const int &total_patients,
+                                    const int &page_number) {
   emit SendPatientList(patients, total_patients, page_number);
 }
 
@@ -65,7 +66,8 @@ void BusinessLogic::DeletePatient(const QString &uid) {
   comms_->DeletePatient(uid);
 }
 
-void BusinessLogic::ProcessCommsError(int errorCode, QString errorSummary) {
+void BusinessLogic::ProcessCommsError(const int &errorCode,
+                                      const QString &errorSummary) {
   if (errorCode == 401) {
     is_user_logger_ = false;
     emit SendLoginStatus(false);
@@ -79,7 +81,8 @@ void BusinessLogic::GetPatientFromList(const Patient &patient) {
 }
 
 void BusinessLogic::UpdateConfiguration(const CommsConfiguration &conf) {
-  if (db_->UpdateCommConfiguration(conf)) comms_->SetCommsAddress(conf);
+  if (db_->UpdateCommConfiguration(conf))
+    comms_->SetCommsAddress(conf);
 }
 
 void BusinessLogic::GetConfiguration(CommsConfiguration &conf) {
@@ -99,10 +102,10 @@ void BusinessLogic::FillServerDummyPatients() {
     patient.surname = "surname" + QString::number(i);
     patient.email = "email" + QString::number(i);
     patient.dateOfBirth = "20181231T000000";
-    patient.address.coordinates = "cor" + QString::number(i);
-    patient.address.street = "street" + QString::number(i);
-    patient.address.city = "city" + QString::number(i);
-    patient.address.zip = "zip" + QString::number(i);
+    patient.coordinates = "cor" + QString::number(i);
+    patient.street = "street" + QString::number(i);
+    patient.city = "city" + QString::number(i);
+    patient.zip = "zip" + QString::number(i);
     comms_->PostPatient(patient);
   }
 }
